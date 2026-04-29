@@ -1,34 +1,51 @@
+
 import axios from "axios";
 import cheerio from "cheerio";
-import { toAbsoluteUrl } from "./utils.js";
+import {
+  toAbsoluteUrl,
+  isValidHref,
+  isInternalLink,
+} from "./utils.js";
 
-export const crawlLinks = async (baseUrl) => {
-  // fetch page HTML
+export const crawlLinks = async (baseUrl, options = {}) => {
+  const { onlyInternal = false, onlyExternal = false } = options;
+
+  // Fetch page
   const { data } = await axios.get(baseUrl);
-
   const $ = cheerio.load(data);
+
   const linksSet = new Set();
 
-  // extract links
+  // Extract links
   $("a").each((i, el) => {
     const href = $(el).attr("href");
-    if (href) {
-      const absolute = toAbsoluteUrl(baseUrl, href);
-      if (absolute) linksSet.add(absolute);
-    }
+
+    if (!isValidHref(href)) return;
+
+    const absolute = toAbsoluteUrl(baseUrl, href);
+    if (!absolute) return;
+
+    // Filter internal/external
+    if (onlyInternal && !isInternalLink(baseUrl, absolute)) return;
+    if (onlyExternal && isInternalLink(baseUrl, absolute)) return;
+
+    linksSet.add(absolute);
   });
 
   const links = Array.from(linksSet);
   const results = [];
 
-  // check each link
   for (let link of links) {
     try {
-      const res = await axios.get(link, { timeout: 5000 });
+      const res = await axios.get(link, {
+        timeout: 5000,
+        validateStatus: () => true, // don't throw on 404
+      });
 
       let type = "WORKING";
+
       if (res.status >= 300 && res.status < 400) type = "REDIRECT";
-      if (res.status >= 400) type = "BROKEN";
+      else if (res.status >= 400) type = "BROKEN";
 
       results.push({
         url: link,
@@ -36,9 +53,14 @@ export const crawlLinks = async (baseUrl) => {
         type,
       });
     } catch (err) {
+      let errorType = "UNKNOWN_ERROR";
+
+      if (err.code === "ECONNABORTED") errorType = "TIMEOUT";
+      else if (err.code === "ENOTFOUND") errorType = "DNS_ERROR";
+
       results.push({
         url: link,
-        status: "ERROR",
+        status: errorType,
         type: "BROKEN",
       });
     }
