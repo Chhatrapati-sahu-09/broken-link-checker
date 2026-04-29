@@ -1,11 +1,6 @@
-
 import axios from "axios";
 import cheerio from "cheerio";
-import {
-  toAbsoluteUrl,
-  isValidHref,
-  isInternalLink,
-} from "./utils.js";
+import { toAbsoluteUrl, isValidHref, isInternalLink } from "./utils.js";
 
 export const crawlLinks = async (baseUrl, options = {}) => {
   const { onlyInternal = false, onlyExternal = false } = options;

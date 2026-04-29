@@ -13,14 +13,18 @@ app.get("/", (req, res) => {
 
 // main API
 app.post("/scan", async (req, res) => {
-  const { url } = req.body;
+  const { url, onlyInternal, onlyExternal } = req.body;
 
   if (!url) {
     return res.status(400).json({ error: "URL is required" });
   }
 
   try {
-    const data = await crawlLinks(url);
+    const data = await crawlLinks(url, {
+      onlyInternal,
+      onlyExternal,
+    });
+
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
