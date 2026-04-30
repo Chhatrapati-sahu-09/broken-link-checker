@@ -1,32 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Broken Link Checker</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+  <head>
+    <title>Broken Link Checker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
-  <div class="container">
-    <h1>🔗 Broken Link Checker</h1>
+  <body>
+    <div class="container">
+      <h1>🔗 Broken Link Checker</h1>
 
-    <input type="text" id="urlInput" placeholder="Enter website URL..." />
-    <button onclick="scanLinks()">Scan</button>
+      <input type="text" id="urlInput" placeholder="Enter website URL..." />
+      <button onclick="scanLinks()">Scan</button>
+      <button onclick="downloadJSON()">Download JSON</button>
+      <div id="loader" style="display:none;">🔄 Scanning...</div>
+      <div id="stats"></div>
+      <div style="margin: 10px 0;">
+        <button onclick="filterLinks('ALL')">All</button>
+        <button onclick="filterLinks('WORKING')">Working</button>
+        <button onclick="filterLinks('BROKEN')">Broken</button>
+        <button onclick="filterLinks('REDIRECT')">Redirect</button>
+      </div>
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th>Status</th>
+            <th>Type</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
 
-    <p id="loading"></p>
-
-    <table id="resultTable">
-      <thead>
-        <tr>
-          <th>URL</th>
-          <th>Status</th>
-          <th>Type</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -4,8 +4,14 @@ body {
   text-align: center;
 }
 
+
 .container {
-  margin-top: 50px;
+  background: white;
+  padding: 20px;
+  width: 80%;
+  margin: 50px auto 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 input {
@@ -13,9 +19,17 @@ input {
   width: 300px;
 }
 
-button {
   padding: 10px 15px;
   cursor: pointer;
+  margin: 5px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #0056b3;
 }
 
 table {
@@ -24,7 +38,8 @@ table {
   width: 80%;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 10px;
 }
