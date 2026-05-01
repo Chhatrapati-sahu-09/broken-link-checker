@@ -1,7 +1,7 @@
 // crawler.js
 
 import axios from "axios";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import { toAbsoluteUrl, isValidHref, isInternalLink } from "./utils.js";
 
 const fetchWithRetry = async (url, retries = 2) => {
