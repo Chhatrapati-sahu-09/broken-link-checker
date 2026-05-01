@@ -1,9 +1,8 @@
-
 import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
-import { crawlLinks } from "./crawler.js";
+import { crawlLinks, crawlSite } from "./crawler.js";
 
 const app = express();
 app.use(cors());
@@ -20,19 +19,18 @@ app.get("/", (req, res) => {
 
 // main API
 app.post("/scan", async (req, res) => {
-  const { url, onlyInternal, onlyExternal } = req.body;
+  const { url, onlyInternal, onlyExternal, deepScan } = req.body;
 
   if (!url) {
     return res.status(400).json({ error: "URL is required" });
   }
 
   try {
-    const data = await crawlLinks(url, {
-      onlyInternal,
-      onlyExternal,
-    });
+    const results = deepScan
+      ? await crawlSite(url, 2, { onlyInternal, onlyExternal })
+      : (await crawlLinks(url, { onlyInternal, onlyExternal })).results;
 
-    res.json(data);
+    res.json({ results });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
