@@ -31,17 +31,59 @@ input {
 button:hover {
   background: #0056b3;
 }
-
-table {
-  margin: 20px auto;
-  border-collapse: collapse;
-  width: 80%;
+body {
+  font-family: Arial;
+  background: #f4f6f9;
+  margin: 0;
 }
 
-th,
-td {
-  border: 1px solid #ddd;
+.container {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.input-box input {
   padding: 10px;
+  width: 300px;
+}
+
+button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+#loader {
+  display: none;
+  margin: 10px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
 }
 
 th {
@@ -49,14 +91,25 @@ th {
   color: white;
 }
 
-.WORKING {
-  color: green;
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
 }
 
-.BROKEN {
-  color: red;
+.WORKING { color: green; }
+.BROKEN { color: red; }
+.REDIRECT { color: orange; }
+
+/* Dark Mode */
+.dark {
+  background: #121212;
+  color: white;
 }
 
-.REDIRECT {
-  color: orange;
+.dark .card {
+  background: #1e1e1e;
+}
+
+.dark table {
+  color: white;
 }
