@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "main": "server/index.js",
   "type": "module",
+  "bin": {
+    "blc": "./bin/index.js"
+  },
   "scripts": {
     "start": "node server/index.js"
   },
   "dependencies": {
     "axios": "^1.6.0",
+    "chalk": "^5.6.2",
     "cheerio": "^1.0.0-rc.12",
+    "commander": "^12.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.2"
   }
