@@ -1,58 +1,99 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Broken Link Checker</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
-    <div class="container">
-      <h1>🔗 Broken Link Checker</h1>
+    <main class="app-shell">
+      <section class="hero card">
+        <div class="hero-copy">
+          <p class="eyebrow">Site health scanner</p>
+          <h1>Broken Link Checker</h1>
+          <p class="lede">
+            Crawl a site up to two levels deep, catch broken links and images, and inspect results with fast filters and visual analytics.
+          </p>
+        </div>
 
-      <!-- Input -->
-      <div class="input-box">
-        <input type="text" id="urlInput" placeholder="Enter website URL..." />
-        <button onclick="scanLinks()">Scan</button>
-        <button onclick="toggleDarkMode()">🌙</button>
+        <div class="hero-actions">
+          <button class="ghost-button" type="button" onclick="toggleDarkMode()">Theme</button>
+          <button class="ghost-button" type="button" onclick="downloadJSON()">Export JSON</button>
+        </div>
+      </section>
+
+      <section class="card controls">
+        <label class="field">
+          <span>Website URL</span>
+          <div class="input-row">
+            <input type="text" id="urlInput" placeholder="https://example.com" />
+            <button class="primary-button" type="button" onclick="scanLinks()">Scan site</button>
+          </div>
+        </label>
+
+        <div id="progressWrap" class="progress-wrap" aria-live="polite">
+          <div class="progress-meta">
+            <span id="progressLabel">Ready to scan</span>
+            <span id="progressValue">0%</span>
+          </div>
+          <div class="progress-track">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-grid" id="stats"></section>
+
+      <section class="card analytics-card">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Visual analytics</p>
+            <h2>Broken share</h2>
+          </div>
+          <span id="analyticsLabel" class="metric-pill">Waiting for data</span>
+        </div>
+        <div class="analytics-bar" id="analyticsBar"></div>
+      </section>
+
+      <section class="card table-card">
+        <div class="toolbar">
+          <label class="search-field">
+            <span>Search results</span>
+            <input type="text" id="searchInput" placeholder="Filter by URL or status" />
+          </label>
+
+          <div class="filters" role="tablist" aria-label="Result filters">
+            <button class="filter-button active" type="button" data-filter="ALL" onclick="filterLinks('ALL')">All</button>
+            <button class="filter-button" type="button" data-filter="BROKEN" onclick="filterLinks('BROKEN')">Broken</button>
+            <button class="filter-button" type="button" data-filter="WORKING" onclick="filterLinks('WORKING')">Working</button>
+            <button class="filter-button" type="button" data-filter="REDIRECT" onclick="filterLinks('REDIRECT')">Redirect</button>
+            <button class="filter-button" type="button" data-filter="image" onclick="filterLinks('image')">Images</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="resultTable">
+            <thead>
+              <tr>
+                <th>Resource</th>
+                <th>Status</th>
+                <th>Type</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div id="loader" class="loader" aria-hidden="true">
+      <div class="loader-card">
+        <div class="spinner"></div>
+        <strong>Scanning site</strong>
+        <span id="loaderText">Crawling pages and validating resources...</span>
       </div>
-
-      <!-- Loader -->
-      <div id="loader">🔄 Scanning...</div>
-
-      <!-- Stats -->
-      <div id="stats" class="card"></div>
-
-      <!-- Search -->
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Search URL..."
-        onkeyup="searchLinks()"
-      />
-
-      <!-- Filters -->
-      <div class="filters">
-        <button onclick="filterLinks('ALL')">All</button>
-        <button onclick="filterLinks('WORKING')">Working</button>
-        <button onclick="filterLinks('BROKEN')">Broken</button>
-        <button onclick="filterLinks('REDIRECT')">Redirect</button>
-      </div>
-
-      <!-- Table -->
-      <table id="resultTable">
-        <thead>
-          <tr>
-            <th>URL</th>
-            <th>Status</th>
-            <th>Type</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-
-      <!-- Export -->
-      <button onclick="downloadJSON()">Download Report</button>
     </div>
 
     <script src="script.js"></script>
