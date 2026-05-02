@@ -29,84 +29,91 @@ Scan • Detect • Analyze • Improve </text> </svg>
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=18&duration=3000&pause=1000&center=true&vCenter=true&width=700&lines=Scan+Websites+Efficiently;Detect+Broken+Links+Instantly;Improve+SEO+and+User+Experience;CLI+and+Web+Interface+Supported" />
+  <b>Scan websites. Detect broken links. Improve reliability, UX, and SEO.</b>
 </p>
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> Project Overview
+## Badges
 
-Broken Link Checker is a full-stack developer utility designed to scan websites, validate hyperlinks, and detect broken resources in real-time.
-
-The system performs automated crawling, extraction, and classification of links to provide actionable insights.
-
----
-
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg> Problem Statement
-
-Web applications frequently suffer from:
-
-* Dead links (HTTP 404)
-* Broken media assets
-* Unmaintained external references
-* SEO penalties due to crawl errors
-
-Manual validation is inefficient and error-prone.
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-18+-green?logo=node.js"/>
+  <img src="https://img.shields.io/badge/Express.js-Backend-black?logo=express"/>
+  <img src="https://img.shields.io/badge/CLI-Tool-blue?logo=gnubash"/>
+  <img src="https://img.shields.io/badge/Frontend-Vanilla_JS-yellow?logo=javascript"/>
+  <img src="https://img.shields.io/badge/License-MIT-blue"/>
+  <img src="https://img.shields.io/badge/Status-Production_Ready-brightgreen"/>
+</p>
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Solution Approach
+## <!-- Simple Icon -->
+
+<svg width="18" height="18" fill="currentColor"><circle cx="9" cy="9" r="8"/></svg> Project Overview
+
+Broken Link Checker is a full-stack developer utility designed to scan websites, validate hyperlinks, and detect broken resources efficiently.
+
+It provides both:
+
+* Web Interface
+* CLI Tool
+
+---
+
+## <svg width="18" height="18" fill="currentColor"><rect x="3" y="3" width="12" height="12"/></svg> Problem Statement
+
+Websites often contain:
+
+* Broken links
+* Outdated references
+* Invalid resources
+
+These issues negatively impact:
+
+* User experience
+* SEO ranking
+* System reliability
+
+---
+
+## <svg width="18" height="18" fill="currentColor"><polygon points="9,2 2,16 16,16"/></svg> Solution
 
 This tool automates:
 
-* Website crawling
-* Link extraction
-* HTTP validation
-* Error classification
-* Report generation
-
-Result: Faster debugging and improved site reliability.
+* Crawling pages
+* Extracting links
+* Validating resources
+* Generating reports
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/></svg> Core Features
+## <svg width="18" height="18" fill="currentColor"><path d="M9 2L2 12h14L9 2z"/></svg> Key Features
 
-* Parallel request processing
-* Retry mechanism for failures
-* Multi-page crawling support
+* Parallel request handling
+* Retry mechanism
+* Multi-page crawling
 * Broken image detection
-* CLI and Web interface
-* JSON export support
-* Internal and external filtering
-* Response time tracking
+* CLI + Web interface
+* JSON export
+* Filtering options
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M4 4h16v16H4z"/></svg> Tech Stack
+## <svg width="18" height="18" fill="currentColor"><circle cx="9" cy="9" r="8"/></svg> Tech Stack
 
-### Backend
-
-* Node.js
-* Express.js
-* Axios
-* Cheerio
-
-### Frontend
-
-* HTML
-* CSS
-* Vanilla JavaScript
-
-### CLI
-
-* Commander.js
-* Chalk
+<p align="center">
+  <img src="https://cdn.simpleicons.org/node.js"/>
+  <img src="https://cdn.simpleicons.org/express"/>
+  <img src="https://cdn.simpleicons.org/javascript"/>
+  <img src="https://cdn.simpleicons.org/html5"/>
+  <img src="https://cdn.simpleicons.org/css3"/>
+</p>
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg> Installation
+## <svg width="18" height="18" fill="currentColor"><rect x="2" y="2" width="14" height="14"/></svg> Installation
 
-```bash id="n8v0cj"
+```bash id="ndq0qv"
 git clone https://github.com/your-username/broken-link-checker.git
 cd broken-link-checker
 npm install
@@ -114,78 +121,39 @@ npm install
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 12h18"/></svg> Running the Application
+## <svg width="18" height="18" fill="currentColor"><polygon points="5,3 15,9 5,15"/></svg> Run Application
 
-```bash id="x4g8hb"
+```bash id="p9nk7f"
 node index.js
 ```
 
-Access the application at:
-
-```
-http://localhost:5000
-```
-
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 3h18v18H3z"/></svg> CLI Usage
+## <svg width="18" height="18" fill="currentColor"><rect x="3" y="3" width="14" height="14"/></svg> CLI Usage
 
-```bash id="r7y1vc"
+```bash id="bw8j6o"
 blc --url https://example.com
 ```
 
-### Available Options
-
-```
--u, --url <url>       Target URL
---internal            Scan only internal links
---external            Scan only external links
---json                Output JSON format
---summary             Display summary only
---deep                Enable deep crawling
-```
-
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> API Interface
+## <svg width="18" height="18" fill="currentColor"><circle cx="9" cy="9" r="8"/></svg> API
 
-### Endpoint
-
-```
+```json id="2wd3z7"
 POST /scan
-```
-
-### Request
-
-```json id="fmbi0p"
 {
-  "url": "https://example.com",
-  "deepScan": true
-}
-```
-
-### Response
-
-```json id="v9yqgo"
-{
-  "total": 25,
-  "working": 18,
-  "broken": 5,
-  "redirect": 2
+  "url": "https://example.com"
 }
 ```
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M4 4h16v16H4z"/></svg> Project Structure
+## <svg width="18" height="18" fill="currentColor"><rect x="3" y="3" width="14" height="14"/></svg> Project Structure
 
-```text id="2vyj6v"
+```text id="owb4vp"
 broken-link-checker/
 ├── bin/
 ├── src/
-│   ├── crawler.js
-│   ├── utils.js
-│   ├── formatter.js
 ├── public/
 ├── index.js
 ├── package.json
@@ -193,26 +161,26 @@ broken-link-checker/
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 3h18v18H3z"/></svg> System Architecture
+## <svg width="18" height="18" fill="currentColor"><circle cx="9" cy="9" r="8"/></svg> System Architecture
 
-```mermaid id="6dff0k"
+```mermaid id="vvub8x"
 flowchart TD
-    A[User] --> B[Frontend / CLI]
+    A[User Input] --> B[Frontend / CLI]
     B --> C[API Server]
-    C --> D[HTML Fetcher]
+    C --> D[Fetcher]
     D --> E[Parser]
     E --> F[Extractor]
-    F --> G[Validator Engine]
+    F --> G[Validator]
     G --> H[Classifier]
-    H --> I[Response Formatter]
-    I --> J[Output UI / CLI]
+    H --> I[Formatter]
+    I --> J[Output]
 ```
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg> ER Diagram
+## <svg width="18" height="18" fill="currentColor"><circle cx="9" cy="9" r="8"/></svg> ER Diagram
 
-```mermaid id="0tnb69"
+```mermaid id="9yq2d5"
 erDiagram
     SCAN ||--|{ LINK : contains
     LINK {
@@ -224,32 +192,30 @@ erDiagram
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M5 12h14"/></svg> Performance Considerations
+## <svg width="18" height="18" fill="currentColor"><rect x="3" y="3" width="14" height="14"/></svg> Performance & Safety
 
-* Rate limiting implemented
-* Maximum link threshold
+* Rate limiting
 * Timeout handling
-* Retry mechanism
-* Efficient batching
+* Retry logic
+* Max link threshold
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Future Enhancements
+## <svg width="18" height="18" fill="currentColor"><polygon points="9,2 2,16 16,16"/></svg> Future Enhancements
 
-* PDF / HTML reports
-* Browser extension
+* PDF reports
+* Chrome extension
 * AI-based analysis
 * CI/CD integration
-* Visualization dashboard
 
 ---
 
-## <svg width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18"/></svg> License
+## <svg width="18" height="18" fill="currentColor"><rect x="2" y="2" width="14" height="14"/></svg> License
 
 MIT © 2026 Chhatrapati Sahu
 
 ---
 
 <p align="center">
-  Designed for modern web reliability and performance
+  Built for modern web reliability and performance
 </p>
