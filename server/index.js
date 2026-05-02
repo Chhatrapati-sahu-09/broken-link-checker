@@ -25,6 +25,10 @@ app.post("/scan", async (req, res) => {
     return res.status(400).json({ error: "URL is required" });
   }
 
+  if (typeof url !== "string" || url.trim().length === 0) {
+    return res.status(400).json({ error: "Invalid URL format" });
+  }
+
   try {
     const results = deepScan
       ? await crawlSite(url, 2, { onlyInternal, onlyExternal })
@@ -32,7 +36,9 @@ app.post("/scan", async (req, res) => {
 
     res.json({ results });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Scan error:", err.message);
+    const statusCode = err.message && err.message.includes("Invalid URL") ? 400 : 500;
+    res.status(statusCode).json({ error: err.message || "An error occurred during scanning" });
   }
 });
 

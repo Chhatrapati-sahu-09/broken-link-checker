@@ -41,7 +41,31 @@ const processInBatches = async (links, batchSize = 10, handler) => {
 export const crawlLinks = async (baseUrl, options = {}) => {
   const { onlyInternal = false, onlyExternal = false } = options;
 
-  const { data } = await axios.get(baseUrl);
+  if (!baseUrl) {
+    throw new Error("URL is required.");
+  }
+
+  if (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://")) {
+    throw new Error("Invalid URL format. Please use http:// or https://");
+  }
+
+  let data;
+  try {
+    const response = await axios.get(baseUrl, {
+      timeout: 5000,
+      validateStatus: () => true,
+    });
+    data = response.data;
+  } catch (err) {
+    if (err.code === "ECONNABORTED") {
+      throw new Error("Request timeout. The website took too long to respond.");
+    } else if (err.code === "ENOTFOUND") {
+      throw new Error("Website not found. Please check the URL.");
+    } else if (err.code === "ECONNREFUSED") {
+      throw new Error("Connection refused. The website may be blocked or offline.");
+    }
+    throw new Error(`Failed to fetch website: ${err.message}`);
+  }
   const $ = cheerio.load(data);
 
   const resources = new Map();

@@ -22,12 +22,17 @@ if (!options.url) {
 }
 
 (async () => {
-  console.log("🔍 Scanning...\n");
+  try {
+    console.log("🔍 Scanning...\n");
 
-  const data = await crawlLinks(options.url, {
-    onlyInternal: options.internal,
-    onlyExternal: options.external,
-  });
+    const data = await crawlLinks(options.url, {
+      onlyInternal: options.internal,
+      onlyExternal: options.external,
+    });
 
-  printResults(data.results);
+    printResults(data.results);
+  } catch (error) {
+    console.error("\n❌ Error:", error.message);
+    process.exit(1);
+  }
 })();
