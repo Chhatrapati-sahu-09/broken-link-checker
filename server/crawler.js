@@ -4,6 +4,8 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { toAbsoluteUrl, isValidHref, isInternalLink } from "./utils.js";
 
+const MAX_LINKS = 100;
+
 const fetchWithRetry = async (url, retries = 2) => {
   for (let i = 0; i <= retries; i++) {
     try {
@@ -62,7 +64,9 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     } else if (err.code === "ENOTFOUND") {
       throw new Error("Website not found. Please check the URL.");
     } else if (err.code === "ECONNREFUSED") {
-      throw new Error("Connection refused. The website may be blocked or offline.");
+      throw new Error(
+        "Connection refused. The website may be blocked or offline.",
+      );
     }
     throw new Error(`Failed to fetch website: ${err.message}`);
   }
@@ -109,12 +113,12 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     addResource(absolute, "image");
   });
 
-  const resourcesList = Array.from(resources.entries()).map(
-    ([url, resourceType]) => ({
+  const resourcesList = Array.from(resources.entries())
+    .slice(0, MAX_LINKS)
+    .map(([url, resourceType]) => ({
       url,
       resourceType,
-    }),
-  );
+    }));
 
   const settledResults = await processInBatches(
     resourcesList,
@@ -154,8 +158,18 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     };
   });
 
+  const total = results.length;
+  const working = results.filter((result) => result.type === "WORKING").length;
+  const broken = results.filter((result) => result.type === "BROKEN").length;
+  const redirect = results.filter(
+    (result) => result.type === "REDIRECT",
+  ).length;
+
   return {
-    total: resourcesList.length,
+    total,
+    working,
+    broken,
+    redirect,
     results,
   };
 };
@@ -191,5 +205,21 @@ export const crawlSite = async (startUrl, maxDepth = 2, options = {}) => {
     }
   }
 
-  return collectedResults;
+  const working = collectedResults.filter(
+    (result) => result.type === "WORKING",
+  ).length;
+  const broken = collectedResults.filter(
+    (result) => result.type === "BROKEN",
+  ).length;
+  const redirect = collectedResults.filter(
+    (result) => result.type === "REDIRECT",
+  ).length;
+
+  return {
+    total: collectedResults.length,
+    working,
+    broken,
+    redirect,
+    results: collectedResults,
+  };
 };

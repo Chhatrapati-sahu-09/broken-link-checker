@@ -37,11 +37,11 @@ app.post("/scan", async (req, res) => {
   }
 
   try {
-    const results = deepScan
+    const scanResult = deepScan
       ? await crawlSite(url, 2, { onlyInternal, onlyExternal })
-      : (await crawlLinks(url, { onlyInternal, onlyExternal })).results;
+      : await crawlLinks(url, { onlyInternal, onlyExternal });
 
-    res.json({ results });
+    res.json(scanResult);
   } catch (err) {
     console.error("Scan error:", err.message);
     const statusCode =
