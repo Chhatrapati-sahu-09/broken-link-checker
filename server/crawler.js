@@ -4,6 +4,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { toAbsoluteUrl, isValidHref, isInternalLink } from "./utils.js";
 
+// Performance guard: cap number of links processed per scan
 const MAX_LINKS = 100;
 
 const fetchWithRetry = async (url, retries = 2) => {
@@ -113,6 +114,7 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     addResource(absolute, "image");
   });
 
+  // Cap the number of resources to MAX_LINKS
   const resourcesList = Array.from(resources.entries())
     .slice(0, MAX_LINKS)
     .map(([url, resourceType]) => ({
@@ -158,14 +160,14 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     };
   });
 
-  // Structured response: total, working, broken, redirect, results
-  return {
-    total: results.length,
-    working: results.filter((r) => r.type === "WORKING").length,
-    broken: results.filter((r) => r.type === "BROKEN").length,
-    redirect: results.filter((r) => r.type === "REDIRECT").length,
-    results,
-  };
+    // Structured response: total, working, broken, redirect, results
+    return {
+      total: results.length,
+      working: results.filter((r) => r.type === "WORKING").length,
+      broken: results.filter((r) => r.type === "BROKEN").length,
+      redirect: results.filter((r) => r.type === "REDIRECT").length,
+      results,
+    };
     results,
   };
 };
