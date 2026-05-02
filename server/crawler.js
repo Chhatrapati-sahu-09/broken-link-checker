@@ -1,3 +1,5 @@
+// Cap for maximum number of links to process in a scan
+const MAX_LINKS = 100;
 // crawler.js
 
 import axios from "axios";
@@ -114,6 +116,7 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     addResource(absolute, "image");
   });
 
+  // Cap the number of resources to MAX_LINKS
   // Cap the number of resources to MAX_LINKS
   const resourcesList = Array.from(resources.entries())
     .slice(0, MAX_LINKS)
