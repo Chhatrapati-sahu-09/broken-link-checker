@@ -4,6 +4,8 @@ import rateLimit from "express-rate-limit";
 import path from "path";
 import { fileURLToPath } from "url";
 import { crawlLinks, crawlSite } from "./crawler.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const limiter = rateLimit({
@@ -12,7 +14,11 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 
 // Serve static frontend files
@@ -36,6 +42,8 @@ app.post("/scan", async (req, res) => {
     return res.status(400).json({ error: "Invalid URL format" });
   }
 
+  console.log(`Scanning: ${url}`);
+
   try {
     const scanResult = deepScan
       ? await crawlSite(url, 2, { onlyInternal, onlyExternal })
@@ -52,6 +60,16 @@ app.post("/scan", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("Server running on http://localhost:5000");
+// Version/info endpoint
+app.get("/info", (req, res) => {
+  res.json({
+    name: "Broken Link Checker",
+    version: "1.0.0",
+    author: "Chhatrapati Sahu",
+  });
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
