@@ -1,117 +1,71 @@
 # Broken Link Checker
 
 <p align="center">
-<svg width="100%" height="140" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="grad">
-      <stop offset="0%" stop-color="#0ea5e9">
-        <animate attributeName="stop-color" values="#0ea5e9;#6366f1;#0ea5e9" dur="6s" repeatCount="indefinite"/>
-      </stop>
-      <stop offset="100%" stop-color="#6366f1">
-        <animate attributeName="stop-color" values="#6366f1;#0ea5e9;#6366f1" dur="6s" repeatCount="indefinite"/>
-      </stop>
-    </linearGradient>
-  </defs>
-
-  <rect width="900" height="140" fill="#020617"/>
-
-<text x="50%" y="45%" text-anchor="middle"
-     font-size="32" fill="url(#grad)" font-family="monospace">
-Broken Link Checker </text>
-
-<text x="50%" y="75%" text-anchor="middle"
-     font-size="14" fill="#94a3b8" font-family="monospace">
-Scan • Detect • Fix Broken Links Efficiently </text> </svg>
-
+  <a href="https://github.com/Chhatrapati-sahu-09">
+    <img src="https://ishan-rest.vercel.app/svg/banner/dev10/Broken_Link_Checker/Scan%20Websites%20%7C%20Detect%20Broken%20Links" style="width:100%;">
+  </a>
 </p>
+
+---
+
+## Tech Stack
 
 <p align="center">
-  <b>Scan websites. Detect broken links. Improve reliability, UX, and SEO.</b>
+  <img src="https://skillicons.dev/icons?i=nodejs" height="40"/>
+  <img src="https://skillicons.dev/icons?i=express" height="40"/>
+  <img src="https://skillicons.dev/icons?i=js" height="40"/>
+  <img src="https://skillicons.dev/icons?i=html" height="40"/>
+  <img src="https://skillicons.dev/icons?i=css" height="40"/>
 </p>
 
 ---
 
-## 📌 Overview
+## Overview
 
-Broken Link Checker is a full-stack tool that scans websites and detects:
+Broken Link Checker is a developer-focused tool that scans websites and identifies:
 
-* Broken links (HTTP 4xx / 5xx)
-* Redirect links (3xx)
-* Working links (2xx)
-* Broken images
+<ul>
+<li><img src="https://www.svgrepo.com/show/452131/error.svg" width="16"/> Broken links (HTTP 4xx / 5xx)</li>
+<li><img src="https://www.svgrepo.com/show/502659/redirect.svg" width="16"/> Redirect links (3xx)</li>
+<li><img src="https://www.svgrepo.com/show/13650/check.svg" width="16"/> Working links (2xx)</li>
+<li><img src="https://www.svgrepo.com/show/502498/image.svg" width="16"/> Broken images</li>
+</ul>
 
-Supports:
+Available as:
 
-* Web interface
-* CLI usage
-
----
-
-## ⚠️ Problem
-
-Websites often suffer from:
-
-* Dead links
-* Broken images
-* Outdated references
-
-This leads to:
-
-* Poor user experience
-* SEO penalties
-* Reduced trust
+<ul>
+<li><img src="https://www.svgrepo.com/show/533146/browser.svg" width="16"/> Web Application</li>
+<li><img src="https://www.svgrepo.com/show/533322/terminal.svg" width="16"/> CLI Tool</li>
+</ul>
 
 ---
 
-## 💡 Solution
+## Features
 
-This tool automates:
-
-* Crawling web pages
-* Extracting links and images
-* Validating HTTP responses
-* Generating structured reports
-
----
-
-## ⚡ Features
-
-* Parallel request processing
-* Retry mechanism
-* Multi-page crawling
-* Broken image detection
-* CLI + Web interface
-* JSON export
-* Filtering (internal/external)
-* Response time tracking
+| Icon                                                                      | Feature         | Description         |
+| ------------------------------------------------------------------------- | --------------- | ------------------- |
+| <img src="https://www.svgrepo.com/show/499828/search.svg" width="16"/>    | Link Scanning   | Extract all links   |
+| <img src="https://www.svgrepo.com/show/535234/lightning.svg" width="16"/> | Fast Checking   | Parallel processing |
+| <img src="https://www.svgrepo.com/show/535008/globe.svg" width="16"/>     | Deep Scan       | Multi-page crawl    |
+| <img src="https://www.svgrepo.com/show/502498/image.svg" width="16"/>     | Image Detection | Broken images       |
+| <img src="https://www.svgrepo.com/show/532997/chart.svg" width="16"/>     | Analytics       | Stats dashboard     |
+| <img src="https://www.svgrepo.com/show/533201/filter.svg" width="16"/>    | Filtering       | Internal/external   |
+| <img src="https://www.svgrepo.com/show/533340/download.svg" width="16"/>  | Export          | JSON report         |
+| <img src="https://www.svgrepo.com/show/533322/terminal.svg" width="16"/>  | CLI Tool        | Terminal usage      |
 
 ---
 
-## 🛠 Tech Stack
+## CLI Usage
 
-**Backend**
-
-* Node.js
-* Express.js
-* Axios
-* Cheerio
-
-**Frontend**
-
-* HTML
-* CSS
-* Vanilla JavaScript
-
-**CLI**
-
-* Commander.js
-* Chalk
+```bash
+blc --url https://example.com
+```
 
 ---
 
-## 🚀 Installation
+## Installation
 
-```bash id="inst1"
+```bash
 git clone https://github.com/your-username/broken-link-checker.git
 cd broken-link-checker
 npm install
@@ -119,151 +73,82 @@ npm install
 
 ---
 
-## ▶️ Run Application
+## Run Application
 
-```bash id="run1"
+```bash
 node index.js
 ```
 
-Open in browser:
-
-```text id="url1"
-http://localhost:5000
-```
-
 ---
 
-## 💻 CLI Usage
+## Project Structure
 
-```bash id="cli1"
-blc --url https://example.com
-```
-
-### Options
-
-```text id="cliopt"
--u, --url <url>       Target URL
---internal            Only internal links
---external            Only external links
---json                Output JSON
---summary             Summary only
---deep                Deep scan
-```
-
----
-
-## 🔗 API
-
-### Endpoint
-
-```text id="api1"
-POST /scan
-```
-
-### Request
-
-```json id="req1"
-{
-  "url": "https://example.com"
-}
-```
-
-### Response
-
-```json id="res1"
-{
-  "total": 10,
-  "working": 7,
-  "broken": 2,
-  "redirect": 1
-}
-```
-
----
-
-## 📁 Project Structure
-
-```text id="struct1"
+```text
 broken-link-checker/
 ├── bin/
 ├── src/
-│   ├── crawler.js
-│   ├── utils.js
-│   ├── formatter.js
 ├── public/
 ├── index.js
-├── package.json
+└── package.json
 ```
 
 ---
 
-## 🧠 How It Works
+## Architecture (ER Diagram)
 
-1. Fetch HTML
-2. Parse DOM
-3. Extract links
-4. Normalize URLs
-5. Send HTTP requests
-6. Classify results
-7. Generate report
-
----
-
-## 🧩 System Architecture
-
-```mermaid id="arch1"
-flowchart TD
-    A[User Input] --> B[Frontend / CLI]
-    B --> C[API Server]
-    C --> D[Fetcher]
-    D --> E[Parser]
-    E --> F[Extractor]
-    F --> G[Validator]
-    G --> H[Classifier]
-    H --> I[Formatter]
-    I --> J[Output]
-```
-
----
-
-## 🗄 ER Diagram
-
-```mermaid id="er1"
+```mermaid
 erDiagram
+    USER ||--o{ SCAN : performs
     SCAN ||--|{ LINK : contains
     LINK {
         string url
         int status
         string type
+        string responseTime
+    }
+    SCAN {
+        int total
+        int working
+        int broken
+        int redirect
     }
 ```
 
 ---
 
-## 🔐 Performance & Safety
+## Performance & Safety
 
-* Rate limiting
-* Timeout handling
-* Retry logic
-* Max link threshold
-
----
-
-## 📈 Future Improvements
-
-* PDF reports
-* Chrome extension
-* AI analysis
-* CI/CD integration
+<ul>
+<li><img src="https://www.svgrepo.com/show/489317/shield.svg" width="16"/> Rate limiting</li>
+<li><img src="https://www.svgrepo.com/show/533152/clock.svg" width="16"/> Timeout handling</li>
+<li><img src="https://www.svgrepo.com/show/533151/retry.svg" width="16"/> Retry mechanism</li>
+<li><img src="https://www.svgrepo.com/show/533305/layers.svg" width="16"/> Max link limit</li>
+</ul>
 
 ---
 
-## 📄 License
+## GitHub Analytics
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=Chhatrapati-sahu-09&show_icons=true&theme=tokyonight" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Chhatrapati-sahu-09&theme=tokyonight" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Chhatrapati-sahu-09&theme=tokyo-night" />
+</p>
+
+---
+
+## License
 
 MIT © 2026 Chhatrapati Sahu
 
 ---
 
 <p align="center">
-  Built for modern web reliability
+  Built for developers focused on performance and reliability
 </p>
