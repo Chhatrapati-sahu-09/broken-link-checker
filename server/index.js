@@ -1,10 +1,17 @@
 import express from "express";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 import path from "path";
 import { fileURLToPath } from "url";
 import { crawlLinks, crawlSite } from "./crawler.js";
 
 const app = express();
+const limiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 20,
+});
+
+app.use(limiter);
 app.use(cors());
 app.use(express.json());
 
@@ -37,8 +44,11 @@ app.post("/scan", async (req, res) => {
     res.json({ results });
   } catch (err) {
     console.error("Scan error:", err.message);
-    const statusCode = err.message && err.message.includes("Invalid URL") ? 400 : 500;
-    res.status(statusCode).json({ error: err.message || "An error occurred during scanning" });
+    const statusCode =
+      err.message && err.message.includes("Invalid URL") ? 400 : 500;
+    res
+      .status(statusCode)
+      .json({ error: err.message || "An error occurred during scanning" });
   }
 });
 
