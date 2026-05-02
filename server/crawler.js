@@ -158,18 +158,14 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     };
   });
 
-  const total = results.length;
-  const working = results.filter((result) => result.type === "WORKING").length;
-  const broken = results.filter((result) => result.type === "BROKEN").length;
-  const redirect = results.filter(
-    (result) => result.type === "REDIRECT",
-  ).length;
-
+  // Structured response: total, working, broken, redirect, results
   return {
-    total,
-    working,
-    broken,
-    redirect,
+    total: results.length,
+    working: results.filter((r) => r.type === "WORKING").length,
+    broken: results.filter((r) => r.type === "BROKEN").length,
+    redirect: results.filter((r) => r.type === "REDIRECT").length,
+    results,
+  };
     results,
   };
 };
