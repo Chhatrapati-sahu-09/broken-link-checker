@@ -8,7 +8,7 @@
 
 ---
 
-## <img src="https://cdn.simpleicons.org/nodedotjs" width="22"/>
+## Tech Stack
 
 <p align="center">
   <img src="https://skillicons.dev/icons?i=nodejs" height="40"/>
