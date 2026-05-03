@@ -1,5 +1,6 @@
 # Broken Link Checker
 
+<<<<<<< HEAD
 <p align="center">
   <a href="https://github.com/Chhatrapati-sahu-09">
     <img src="https://ishan-rest.vercel.app/svg/banner/dev10/Broken_Link_Checker/Scan%20Websites%20%7C%20Detect%20Broken%20Links" style="width:100%;">
@@ -22,47 +23,60 @@
 
 ## Overview
 
-Broken Link Checker is a developer-focused tool that scans websites and identifies:
-
-<ul>
-<li><img src="https://www.svgrepo.com/show/452131/error.svg" width="16"/> Broken links (HTTP 4xx / 5xx)</li>
-<li><img src="https://www.svgrepo.com/show/502659/redirect.svg" width="16"/> Redirect links (3xx)</li>
-<li><img src="https://www.svgrepo.com/show/13650/check.svg" width="16"/> Working links (2xx)</li>
-<li><img src="https://www.svgrepo.com/show/502498/image.svg" width="16"/> Broken images</li>
-</ul>
-
-Available as:
-
-<ul>
-<li><img src="https://www.svgrepo.com/show/533146/browser.svg" width="16"/> Web Application</li>
-<li><img src="https://www.svgrepo.com/show/533322/terminal.svg" width="16"/> CLI Tool</li>
-</ul>
+- CLI and REST API
+- Rate limiting and performance guard
+- Structured JSON responses
+- SEO-friendly frontend
+- .env config, CORS, logging, and more
 
 ---
 
-## Features
-
-| Icon                                                                      | Feature         | Description         |
-| ------------------------------------------------------------------------- | --------------- | ------------------- |
-| <img src="https://www.svgrepo.com/show/499828/search.svg" width="16"/>    | Link Scanning   | Extract all links   |
-| <img src="https://www.svgrepo.com/show/535234/lightning.svg" width="16"/> | Fast Checking   | Parallel processing |
-| <img src="https://www.svgrepo.com/show/535008/globe.svg" width="16"/>     | Deep Scan       | Multi-page crawl    |
-| <img src="https://www.svgrepo.com/show/502498/image.svg" width="16"/>     | Image Detection | Broken images       |
-| <img src="https://www.svgrepo.com/show/532997/chart.svg" width="16"/>     | Analytics       | Stats dashboard     |
-| <img src="https://www.svgrepo.com/show/533201/filter.svg" width="16"/>    | Filtering       | Internal/external   |
-| <img src="https://www.svgrepo.com/show/533340/download.svg" width="16"/>  | Export          | JSON report         |
-| <img src="https://www.svgrepo.com/show/533322/terminal.svg" width="16"/>  | CLI Tool        | Terminal usage      |
+## 🖥️ Tech Stack
+- **Backend:** Node.js, Express, Axios, Cheerio
+- **Frontend:** Vanilla JS, HTML, CSS
+- **CLI:** Node.js
 
 ---
 
-## CLI Usage
+## 🛠️ Setup & Usage
 
-```bash
-blc --url https://example.com
+1. **Clone the repo:**
+   ```bash
+   cd broken-link-checker
+   ```
+   npm start
+5. **Open frontend:**
+   - Visit [http://localhost:5000](http://localhost:5000)
+   ```
+---
+
+## 📦 API Example
+
+**POST** `/scan`
+```json
+{
+  "url": "https://example.com",
+  "onlyInternal": false,
+  "onlyExternal": false,
+  "deepScan": false
+}
 ```
+**Response:**
+```json
+{
+  "total": 10,
+  "working": 7,
+  "broken": 2,
+  "redirect": 1,
+  "results": [
+    { "url": "...", "status": 200, "type": "WORKING", ... }
+  ]
+}
+>>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
 
 ---
 
+<<<<<<< HEAD
 ## Installation
 
 ```bash
@@ -84,7 +98,6 @@ node index.js
 ## Project Structure
 
 ```text
-broken-link-checker/
 ├── bin/
 ├── src/
 ├── public/
@@ -109,13 +122,30 @@ erDiagram
     SCAN {
         int total
         int working
-        int broken
         int redirect
+=======
+## 🗺️ ER Diagram
+
+```mermaid
+    USER ||--o{ SCAN : requests
+    SCAN ||--|{ RESULT : contains
+    SCAN {
+      date timestamp
+      int working
+      int broken
+    RESULT {
+      string url
+      int status
+      string type
+      string resourceType
+      string responseTime
+>>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
     }
 ```
 
 ---
 
+<<<<<<< HEAD
 ## Performance & Safety
 
 <ul>
@@ -152,3 +182,20 @@ MIT © 2026 Chhatrapati Sahu
 <p align="center">
   Built for developers focused on performance and reliability
 </p>
+=======
+## 📄 License
+
+MIT
+
+---
+
+## 👤 Author
+
+- [Chhatrapati Sahu](https://github.com/Chhatrapati-sahu-09)
+
+---
+
+## 🌐 Links
+- [Live Demo](https://broken-link-checker-demo.vercel.app/) *(if deployed)*
+- [GitHub Repo](https://github.com/Chhatrapati-sahu-09/broken-link-checker)
+>>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
