@@ -1,26 +1,76 @@
+# Broken Link Checker
+
+A full-stack tool to scan websites and detect broken links, redirects, and invalid resources to improve user experience and SEO.
+
+---
+
 ## ✨ Features
 
->>>>>>> 34a1bce (chore: sync local changes before rebase/push)
+* Scan websites for broken links
+* Detect redirects and working links
+* Support for internal and external link filtering
+* Deep scan (multi-page crawling)
+* CLI + Web interface
+* JSON report output
 
+---
 
 ## 🖥️ Tech Stack
 
+**Backend**
 
+* Node.js
+* Express.js
+* Axios
+* Cheerio
+
+**Frontend**
+
+* HTML
+* CSS
+* JavaScript
+
+**CLI**
+
+* Commander.js
+* Chalk
+
+---
 
 ## 🛠️ Setup & Usage
 
-1. **Clone the repo:**
-   ```bash
-   cd broken-link-checker
-   ```
-   npm start
-5. **Open frontend:**
-   - Visit [http://localhost:5000](http://localhost:5000)
-   ```
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/broken-link-checker.git
+cd broken-link-checker
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Run the application
+
+```bash
+node index.js
+```
+
+### 4. Open in browser
+
+```
+http://localhost:5000
+```
+
+---
 
 ## 📦 API Example
 
-**POST** `/scan`
+### POST `/scan`
+
+#### Request
 
 ```json
 {
@@ -31,7 +81,7 @@
 }
 ```
 
-**Response:**
+#### Response
 
 ```json
 {
@@ -40,24 +90,29 @@
   "broken": 2,
   "redirect": 1,
   "results": [
-    { "url": "...", "status": 200, "type": "WORKING", ... }
+    {
+      "url": "https://example.com/about",
+      "status": 200,
+      "type": "WORKING"
+    }
   ]
 }
->>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
-
-
-
-## Run Application
-
-```bash
-node index.js
 ```
 
 ---
 
-## Project Structure
+## 🚀 CLI Usage
+
+```bash
+blc --url https://example.com
+```
+
+---
+
+## 📁 Project Structure
 
 ```text
+broken-link-checker/
 ├── bin/
 ├── src/
 ├── public/
@@ -67,82 +122,29 @@ node index.js
 
 ---
 
-## Architecture (ER Diagram)
+## 🧩 Architecture (ER Diagram)
 
 ```mermaid
 erDiagram
-    USER ||--o{ SCAN : performs
     SCAN ||--|{ LINK : contains
     LINK {
         string url
         int status
         string type
-        string responseTime
-    }
-    SCAN {
-        int total
-        int working
-        int redirect
-=======
-## 🗺️ ER Diagram
-
-```mermaid
-    USER ||--o{ SCAN : requests
-    SCAN ||--|{ RESULT : contains
-    SCAN {
-      date timestamp
-      int working
-      int broken
-    RESULT {
-      string url
-      int status
-      string type
-      string resourceType
-      string responseTime
->>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
     }
 ```
 
 ---
 
-<<<<<<< HEAD
-## Performance & Safety
+## ⚡ Performance & Safety
 
-<ul>
-<li><img src="https://www.svgrepo.com/show/489317/shield.svg" width="16"/> Rate limiting</li>
-<li><img src="https://www.svgrepo.com/show/533152/clock.svg" width="16"/> Timeout handling</li>
-<li><img src="https://www.svgrepo.com/show/533151/retry.svg" width="16"/> Retry mechanism</li>
-<li><img src="https://www.svgrepo.com/show/533305/layers.svg" width="16"/> Max link limit</li>
-</ul>
+* Rate limiting
+* Timeout handling
+* Retry mechanism
+* Max link limit
 
 ---
 
-## GitHub Analytics
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Chhatrapati-sahu-09&show_icons=true&theme=tokyonight" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Chhatrapati-sahu-09&theme=tokyonight" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Chhatrapati-sahu-09&theme=tokyo-night" />
-</p>
-
----
-
-## License
-
-MIT © 2026 Chhatrapati Sahu
-
----
-
-<p align="center">
-  Built for developers focused on performance and reliability
-</p>
-=======
 ## 📄 License
 
 MIT
@@ -151,12 +153,5 @@ MIT
 
 ## 👤 Author
 
-- [Chhatrapati Sahu](https://github.com/Chhatrapati-sahu-09)
-
----
-
-## 🌐 Links
-
-- [Live Demo](https://broken-link-checker-demo.vercel.app/) _(if deployed)_
-- [GitHub Repo](https://github.com/Chhatrapati-sahu-09/broken-link-checker)
->>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
+Chhatrapati Sahu
+https://github.com/Chhatrapati-sahu-09
