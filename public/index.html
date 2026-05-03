@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Broken Link Checker Tool</title>
-    <meta name="description" content="Scan websites and find broken links instantly">
+    <meta
+      name="description"
+      content="Scan websites and find broken links instantly"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -14,13 +17,18 @@
           <p class="eyebrow">Site health scanner</p>
           <h1>Broken Link Checker</h1>
           <p class="lede">
-            Crawl a site up to two levels deep, catch broken links and images, and inspect results with fast filters and visual analytics.
+            Crawl a site up to two levels deep, catch broken links and images,
+            and inspect results with fast filters and visual analytics.
           </p>
         </div>
 
         <div class="hero-actions">
-          <button class="ghost-button" type="button" onclick="toggleDarkMode()">Theme</button>
-          <button class="ghost-button" type="button" onclick="downloadJSON()">Export JSON</button>
+          <button class="ghost-button" type="button" onclick="toggleDarkMode()">
+            Theme
+          </button>
+          <button class="ghost-button" type="button" onclick="downloadJSON()">
+            Export JSON
+          </button>
         </div>
       </section>
 
@@ -28,8 +36,14 @@
         <label class="field">
           <span>Website URL</span>
           <div class="input-row">
-            <input type="text" id="urlInput" placeholder="https://example.com" />
-            <button class="primary-button" type="button" onclick="scanLinks()">Scan site</button>
+            <input
+              type="text"
+              id="urlInput"
+              placeholder="https://example.com"
+            />
+            <button class="primary-button" type="button" onclick="scanLinks()">
+              Scan site
+            </button>
           </div>
         </label>
 
@@ -61,15 +75,54 @@
         <div class="toolbar">
           <label class="search-field">
             <span>Search results</span>
-            <input type="text" id="searchInput" placeholder="Filter by URL or status" />
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Filter by URL or status"
+            />
           </label>
 
           <div class="filters" role="tablist" aria-label="Result filters">
-            <button class="filter-button active" type="button" data-filter="ALL" onclick="filterLinks('ALL')">All</button>
-            <button class="filter-button" type="button" data-filter="BROKEN" onclick="filterLinks('BROKEN')">Broken</button>
-            <button class="filter-button" type="button" data-filter="WORKING" onclick="filterLinks('WORKING')">Working</button>
-            <button class="filter-button" type="button" data-filter="REDIRECT" onclick="filterLinks('REDIRECT')">Redirect</button>
-            <button class="filter-button" type="button" data-filter="image" onclick="filterLinks('image')">Images</button>
+            <button
+              class="filter-button active"
+              type="button"
+              data-filter="ALL"
+              onclick="filterLinks('ALL')"
+            >
+              All
+            </button>
+            <button
+              class="filter-button"
+              type="button"
+              data-filter="BROKEN"
+              onclick="filterLinks('BROKEN')"
+            >
+              Broken
+            </button>
+            <button
+              class="filter-button"
+              type="button"
+              data-filter="WORKING"
+              onclick="filterLinks('WORKING')"
+            >
+              Working
+            </button>
+            <button
+              class="filter-button"
+              type="button"
+              data-filter="REDIRECT"
+              onclick="filterLinks('REDIRECT')"
+            >
+              Redirect
+            </button>
+            <button
+              class="filter-button"
+              type="button"
+              data-filter="image"
+              onclick="filterLinks('image')"
+            >
+              Images
+            </button>
           </div>
         </div>
 

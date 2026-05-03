@@ -17,7 +17,7 @@ app.use(limiter);
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 app.use(express.json());
 

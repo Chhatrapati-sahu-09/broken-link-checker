@@ -1,42 +1,11 @@
-# Broken Link Checker
+## ✨ Features
 
-<<<<<<< HEAD
-<p align="center">
-  <a href="https://github.com/Chhatrapati-sahu-09">
-    <img src="https://ishan-rest.vercel.app/svg/banner/dev10/Broken_Link_Checker/Scan%20Websites%20%7C%20Detect%20Broken%20Links" style="width:100%;">
-  </a>
-</p>
+>>>>>>> 34a1bce (chore: sync local changes before rebase/push)
 
----
-
-## Tech Stack
-
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=nodejs" height="40"/>
-  <img src="https://skillicons.dev/icons?i=express" height="40"/>
-  <img src="https://skillicons.dev/icons?i=js" height="40"/>
-  <img src="https://skillicons.dev/icons?i=html" height="40"/>
-  <img src="https://skillicons.dev/icons?i=css" height="40"/>
-</p>
-
----
-
-## Overview
-
-- CLI and REST API
-- Rate limiting and performance guard
-- Structured JSON responses
-- SEO-friendly frontend
-- .env config, CORS, logging, and more
-
----
 
 ## 🖥️ Tech Stack
-- **Backend:** Node.js, Express, Axios, Cheerio
-- **Frontend:** Vanilla JS, HTML, CSS
-- **CLI:** Node.js
 
----
+
 
 ## 🛠️ Setup & Usage
 
@@ -48,11 +17,11 @@
 5. **Open frontend:**
    - Visit [http://localhost:5000](http://localhost:5000)
    ```
----
 
 ## 📦 API Example
 
 **POST** `/scan`
+
 ```json
 {
   "url": "https://example.com",
@@ -61,7 +30,9 @@
   "deepScan": false
 }
 ```
+
 **Response:**
+
 ```json
 {
   "total": 10,
@@ -74,18 +45,7 @@
 }
 >>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
 
----
 
-<<<<<<< HEAD
-## Installation
-
-```bash
-git clone https://github.com/your-username/broken-link-checker.git
-cd broken-link-checker
-npm install
-```
-
----
 
 ## Run Application
 
@@ -196,6 +156,7 @@ MIT
 ---
 
 ## 🌐 Links
-- [Live Demo](https://broken-link-checker-demo.vercel.app/) *(if deployed)*
+
+- [Live Demo](https://broken-link-checker-demo.vercel.app/) _(if deployed)_
 - [GitHub Repo](https://github.com/Chhatrapati-sahu-09/broken-link-checker)
 >>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
