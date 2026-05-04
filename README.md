@@ -1,43 +1,78 @@
 # Broken Link Checker
 
-A full-stack tool to scan websites and detect broken links, redirects, and invalid resources to improve user experience and SEO.
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?color=00F7FF&size=28&center=true&vCenter=true&width=700&lines=Scan+Websites;Detect+Broken+Links;Improve+SEO;Full+Stack+Tool" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/stars/Chhatrapati-sahu-09/broken-link-checker?style=for-the-badge" />
+  <img src="https://img.shields.io/github/forks/Chhatrapati-sahu-09/broken-link-checker?style=for-the-badge" />
+  <img src="https://img.shields.io/github/license/Chhatrapati-sahu-09/broken-link-checker?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Node.js-Backend-green?style=for-the-badge&logo=node.js" />
+  <img src="https://img.shields.io/badge/CLI-Tool-blue?style=for-the-badge&logo=terminal" />
+</p>
 
 ---
 
-## ✨ Features
+## Overview
 
-* Scan websites for broken links
-* Detect redirects and working links
-* Support for internal and external link filtering
-* Deep scan (multi-page crawling)
-* CLI + Web interface
-* JSON report output
+A full-stack tool to scan websites and detect:
 
----
+- Broken links  
+- Redirects  
+- Working resources  
 
-## 🖥️ Tech Stack
-
-**Backend**
-
-* Node.js
-* Express.js
-* Axios
-* Cheerio
-
-**Frontend**
-
-* HTML
-* CSS
-* JavaScript
-
-**CLI**
-
-* Commander.js
-* Chalk
+This helps improve user experience and SEO performance.
 
 ---
 
-## 🛠️ Setup & Usage
+## Features
+
+- Scan websites for broken links  
+- Detect redirects and working links  
+- Internal and external link filtering  
+- Deep scan (multi-page crawling)  
+- CLI and Web interface  
+- JSON report output  
+
+---
+
+## Tech Stack
+
+### Backend
+<p>
+  <img src="https://skillicons.dev/icons?i=nodejs,express" />
+</p>
+
+- Node.js  
+- Express.js  
+- Axios  
+- Cheerio  
+
+---
+
+### Frontend
+<p>
+  <img src="https://skillicons.dev/icons?i=html,css,js" />
+</p>
+
+- HTML  
+- CSS  
+- JavaScript  
+
+---
+
+### CLI
+<p>
+  <img src="https://skillicons.dev/icons?i=nodejs" />
+</p>
+
+- Commander.js  
+- Chalk  
+
+---
+
+## Setup and Usage
 
 ### 1. Clone the repository
 
@@ -66,7 +101,7 @@ http://localhost:5000
 
 ---
 
-## 📦 API Example
+## API Example
 
 ### POST `/scan`
 
@@ -101,7 +136,7 @@ http://localhost:5000
 
 ---
 
-## 🚀 CLI Usage
+## CLI Usage
 
 ```bash
 blc --url https://example.com
@@ -109,7 +144,7 @@ blc --url https://example.com
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 broken-link-checker/
@@ -122,7 +157,7 @@ broken-link-checker/
 
 ---
 
-## 🧩 Architecture (ER Diagram)
+## Architecture
 
 ```mermaid
 erDiagram
@@ -136,22 +171,28 @@ erDiagram
 
 ---
 
-## ⚡ Performance & Safety
+## Performance and Safety
 
-* Rate limiting
-* Timeout handling
-* Retry mechanism
-* Max link limit
+- Rate limiting  
+- Timeout handling  
+- Retry mechanism  
+- Max link limit  
 
 ---
 
-## 📄 License
+## License
 
 MIT
 
 ---
 
-## 👤 Author
+## Author
 
-Chhatrapati Sahu
+Chhatrapati Sahu  
 https://github.com/Chhatrapati-sahu-09
+
+---
+
+## Support
+
+If you find this project useful, consider starring and sharing it.
