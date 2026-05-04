@@ -1,111 +1,25 @@
-# Broken Link Checker
+## ✨ Features
 
-<p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?color=00F7FF&size=28&center=true&vCenter=true&width=700&lines=Scan+Websites;Detect+Broken+Links;Improve+SEO;Full+Stack+Tool" />
-</p>
+> > > > > > > 34a1bce (chore: sync local changes before rebase/push)
 
-<p align="center">
-  <img src="https://img.shields.io/github/stars/Chhatrapati-sahu-09/broken-link-checker?style=for-the-badge" />
-  <img src="https://img.shields.io/github/forks/Chhatrapati-sahu-09/broken-link-checker?style=for-the-badge" />
-  <img src="https://img.shields.io/github/license/Chhatrapati-sahu-09/broken-link-checker?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Node.js-Backend-green?style=for-the-badge&logo=node.js" />
-  <img src="https://img.shields.io/badge/CLI-Tool-blue?style=for-the-badge&logo=terminal" />
-</p>
+## 🖥️ Tech Stack
 
----
+## 🛠️ Setup & Usage
 
-## Overview
+1. **Clone the repo:**
+   ```bash
+   cd broken-link-checker
+   ```
+   npm start
+2. **Open frontend:**
+   - Visit [http://localhost:5000](http://localhost:5000)
+   ```
 
-A full-stack tool to scan websites and detect:
+   ```
 
-- Broken links  
-- Redirects  
-- Working resources  
+## 📦 API Example
 
-This helps improve user experience and SEO performance.
-
----
-
-## Features
-
-- Scan websites for broken links  
-- Detect redirects and working links  
-- Internal and external link filtering  
-- Deep scan (multi-page crawling)  
-- CLI and Web interface  
-- JSON report output  
-
----
-
-## Tech Stack
-
-### Backend
-<p>
-  <img src="https://skillicons.dev/icons?i=nodejs,express" />
-</p>
-
-- Node.js  
-- Express.js  
-- Axios  
-- Cheerio  
-
----
-
-### Frontend
-<p>
-  <img src="https://skillicons.dev/icons?i=html,css,js" />
-</p>
-
-- HTML  
-- CSS  
-- JavaScript  
-
----
-
-### CLI
-<p>
-  <img src="https://skillicons.dev/icons?i=nodejs" />
-</p>
-
-- Commander.js  
-- Chalk  
-
----
-
-## Setup and Usage
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/broken-link-checker.git
-cd broken-link-checker
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Run the application
-
-```bash
-node index.js
-```
-
-### 4. Open in browser
-
-```
-http://localhost:5000
-```
-
----
-
-## API Example
-
-### POST `/scan`
-
-#### Request
+**POST** `/scan`
 
 ```json
 {
@@ -116,83 +30,141 @@ http://localhost:5000
 }
 ```
 
+**Parameters:**
+
+- `url` (string, required): The website to scan.
+- `onlyInternal` (boolean, optional): Scan only internal links.
+- `onlyExternal` (boolean, optional): Scan only external links.
+- `deepScan` (boolean, optional): Enable deep crawling.
+
 #### Response
 
-```json
+````json
 {
   "total": 10,
   "working": 7,
   "broken": 2,
   "redirect": 1,
   "results": [
-    {
-      "url": "https://example.com/about",
-      "status": 200,
-      "type": "WORKING"
-    }
+    { "url": "...", "status": 200, "type": "WORKING", ... }
   ]
 }
-```
+>>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
 
----
 
-## CLI Usage
+
+## Run Application
 
 ```bash
-blc --url https://example.com
-```
+node index.js
+````
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 broken-link-checker/
 ├── bin/
 ├── src/
 ├── public/
+├── server/
 ├── index.js
 └── package.json
 ```
 
 ---
 
-## Architecture
+## 🧩 Architecture (ER Diagram)
 
-```mermaid
+````mermaid
 erDiagram
     SCAN ||--|{ LINK : contains
     LINK {
         string url
         int status
         string type
+        string responseTime
     }
-```
+    SCAN {
+        int total
+        int working
+        int redirect
+=======
+## 🗺️ ER Diagram
+
+```mermaid
+    USER ||--o{ SCAN : requests
+    SCAN ||--|{ RESULT : contains
+    SCAN {
+      date timestamp
+      int working
+      int broken
+    RESULT {
+      string url
+      int status
+      string type
+      string resourceType
+      string responseTime
+>>>>>>> 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
+    }
+````
 
 ---
 
-## Performance and Safety
+<<<<<<< HEAD
 
-- Rate limiting  
-- Timeout handling  
-- Retry mechanism  
-- Max link limit  
+## Performance & Safety
+
+<ul>
+<li><img src="https://www.svgrepo.com/show/489317/shield.svg" width="16"/> Rate limiting</li>
+<li><img src="https://www.svgrepo.com/show/533152/clock.svg" width="16"/> Timeout handling</li>
+<li><img src="https://www.svgrepo.com/show/533151/retry.svg" width="16"/> Retry mechanism</li>
+<li><img src="https://www.svgrepo.com/show/533305/layers.svg" width="16"/> Max link limit</li>
+</ul>
+
+---
+
+## GitHub Analytics
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=Chhatrapati-sahu-09&show_icons=true&theme=tokyonight" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Chhatrapati-sahu-09&theme=tokyonight" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Chhatrapati-sahu-09&theme=tokyo-night" />
+</p>
 
 ---
 
 ## License
 
+MIT © 2026 Chhatrapati Sahu
+
+---
+
+<p align="center">
+  Built for developers focused on performance and reliability
+</p>
+=======
+## 📄 License
+
 MIT
 
 ---
 
-## Author
+## 👤 Author
 
-Chhatrapati Sahu  
-https://github.com/Chhatrapati-sahu-09
+- [Chhatrapati Sahu](https://github.com/Chhatrapati-sahu-09)
 
 ---
 
-## Support
+## 🌐 Links
 
-If you find this project useful, consider starring and sharing it.
+- [Live Demo](https://broken-link-checker-demo.vercel.app/) _(if deployed)_
+- [GitHub Repo](https://github.com/Chhatrapati-sahu-09/broken-link-checker)
+  > > > > > > > 6fbfa7e (docs: Add detailed README with animated banner, badges, icons, and ER diagram)
