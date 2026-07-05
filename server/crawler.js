@@ -8,13 +8,19 @@ const MAX_LINKS = 100;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const fetchWithRetry = async (url, retries = 3) => {
+const fetchWithRetry = async (url, retries = 3, options = {}) => {
   for (let i = 0; i <= retries; i++) {
     try {
       const start = Date.now();
 
+      const headers = {};
+      if (options.userAgent) {
+        headers["User-Agent"] = options.userAgent;
+      }
+
       const res = await axios.get(url, {
         timeout: 5000,
+        headers,
         validateStatus: () => true,
       });
 
@@ -31,7 +37,7 @@ const fetchWithRetry = async (url, retries = 3) => {
 };
 
 export const crawlLinks = async (baseUrl, options = {}) => {
-  const { onlyInternal = false, onlyExternal = false, concurrency = 10 } = options;
+  const { onlyInternal = false, onlyExternal = false, concurrency = 10, userAgent } = options;
 
   if (!baseUrl) {
     throw new Error("URL is required.");
@@ -43,8 +49,14 @@ export const crawlLinks = async (baseUrl, options = {}) => {
 
   let data;
   try {
+    const headers = {};
+    if (userAgent) {
+      headers["User-Agent"] = userAgent;
+    }
+
     const response = await axios.get(baseUrl, {
       timeout: 5000,
+      headers,
       validateStatus: () => true,
     });
     data = response.data;
@@ -118,7 +130,7 @@ export const crawlLinks = async (baseUrl, options = {}) => {
   const settledResults = await Promise.allSettled(
     resourcesList.map((resource) =>
       limit(async () => {
-        const res = await fetchWithRetry(resource.url);
+        const res = await fetchWithRetry(resource.url, 3, { userAgent });
 
         let type = "WORKING";
         if (res.status >= 300 && res.status < 400) type = "REDIRECT";
