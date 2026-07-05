@@ -1,7 +1,42 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 import pLimit from "p-limit";
+import xml2js from "xml2js";
 import { toAbsoluteUrl, isValidHref, isInternalLink } from "./utils.js";
+
+const isSitemapUrl = (url) => {
+  try {
+    const parsed = new URL(url);
+    return parsed.pathname.endsWith(".xml") || parsed.pathname.includes("sitemap");
+  } catch {
+    return false;
+  }
+};
+
+const parseSitemap = async (xmlString) => {
+  const parser = new xml2js.Parser();
+  try {
+    const result = await parser.parseStringPromise(xmlString);
+    const urls = [];
+    if (result && result.urlset && Array.isArray(result.urlset.url)) {
+      for (const entry of result.urlset.url) {
+        if (entry.loc && entry.loc[0]) {
+          urls.push(entry.loc[0].trim());
+        }
+      }
+    } else if (result && result.sitemapindex && Array.isArray(result.sitemapindex.sitemap)) {
+      for (const entry of result.sitemapindex.sitemap) {
+        if (entry.loc && entry.loc[0]) {
+          urls.push(entry.loc[0].trim());
+        }
+      }
+    }
+    return urls;
+  } catch (err) {
+    console.error("Error parsing sitemap XML:", err.message);
+    return [];
+  }
+};
 
 // Performance guard: cap number of links processed per scan
 const MAX_LINKS = 100;
@@ -96,8 +131,6 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     }
     throw new Error(`Failed to fetch website: ${err.message}`);
   }
-  const $ = cheerio.load(data);
-
   const resources = new Map();
 
   const addResource = (url, resourceType) => {
@@ -111,33 +144,44 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     }
   };
 
-  $("a").each((i, el) => {
-    const href = $(el).attr("href");
+  if (isSitemapUrl(baseUrl)) {
+    const parsedUrls = await parseSitemap(data);
+    for (const loc of parsedUrls) {
+      if (onlyInternal && !isInternalLink(baseUrl, loc)) continue;
+      if (onlyExternal && isInternalLink(baseUrl, loc)) continue;
+      addResource(loc, "link");
+    }
+  } else {
+    const $ = cheerio.load(data);
 
-    if (!isValidHref(href)) return;
+    $("a").each((i, el) => {
+      const href = $(el).attr("href");
 
-    const absolute = toAbsoluteUrl(baseUrl, href);
-    if (!absolute) return;
+      if (!isValidHref(href)) return;
 
-    if (onlyInternal && !isInternalLink(baseUrl, absolute)) return;
-    if (onlyExternal && isInternalLink(baseUrl, absolute)) return;
+      const absolute = toAbsoluteUrl(baseUrl, href);
+      if (!absolute) return;
 
-    addResource(absolute, "link");
-  });
+      if (onlyInternal && !isInternalLink(baseUrl, absolute)) return;
+      if (onlyExternal && isInternalLink(baseUrl, absolute)) return;
 
-  $("img").each((i, el) => {
-    const src = $(el).attr("src");
+      addResource(absolute, "link");
+    });
 
-    if (!src) return;
+    $("img").each((i, el) => {
+      const src = $(el).attr("src");
 
-    const absolute = toAbsoluteUrl(baseUrl, src);
-    if (!absolute) return;
+      if (!src) return;
 
-    if (onlyInternal && !isInternalLink(baseUrl, absolute)) return;
-    if (onlyExternal && isInternalLink(baseUrl, absolute)) return;
+      const absolute = toAbsoluteUrl(baseUrl, src);
+      if (!absolute) return;
 
-    addResource(absolute, "image");
-  });
+      if (onlyInternal && !isInternalLink(baseUrl, absolute)) return;
+      if (onlyExternal && isInternalLink(baseUrl, absolute)) return;
+
+      addResource(absolute, "image");
+    });
+  }
 
   // Cap the number of resources to MAX_LINKS
   // Cap the number of resources to MAX_LINKS
@@ -206,8 +250,31 @@ export const crawlLinks = async (baseUrl, options = {}) => {
 
 export const crawlSite = async (startUrl, maxDepth = 2, options = {}) => {
   const visited = new Set();
-  const queue = [{ url: startUrl, depth: 0 }];
+  const queue = [];
   const collectedResults = [];
+
+  if (isSitemapUrl(startUrl)) {
+    try {
+      const headers = {};
+      if (options.userAgent) {
+        headers["User-Agent"] = options.userAgent;
+      }
+      const response = await axios.get(startUrl, {
+        timeout: 5000,
+        headers,
+        validateStatus: () => true,
+      });
+      const urls = await parseSitemap(response.data);
+      for (const loc of urls) {
+        queue.push({ url: loc, depth: 0 });
+      }
+      visited.add(startUrl);
+    } catch (err) {
+      console.error("Failed to seed from sitemap:", err.message);
+    }
+  } else {
+    queue.push({ url: startUrl, depth: 0 });
+  }
 
   while (queue.length > 0) {
     const { url, depth } = queue.shift();
