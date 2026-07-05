@@ -8,6 +8,21 @@ const MAX_LINKS = 100;
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const isSoft404 = (htmlString) => {
+  if (typeof htmlString !== "string") return false;
+  const lower = htmlString.toLowerCase();
+  const keywords = [
+    "404 not found",
+    "page not found",
+    "404 error",
+    "page doesn't exist",
+    "page does not exist",
+    "could not be found",
+    "requested page was not found"
+  ];
+  return keywords.some(kw => lower.includes(kw));
+};
+
 const fetchWithRetry = async (url, retries = 3, options = {}) => {
   for (let i = 0; i <= retries; i++) {
     try {
@@ -24,8 +39,17 @@ const fetchWithRetry = async (url, retries = 3, options = {}) => {
         validateStatus: () => true,
       });
 
+      const contentType = res.headers["content-type"] || "";
+      let isSoft = false;
+      if (res.status === 200 && contentType.includes("text/html")) {
+        const bodyText = typeof res.data === "string" ? res.data : JSON.stringify(res.data);
+        if (isSoft404(bodyText)) {
+          isSoft = true;
+        }
+      }
+
       return {
-        status: res.status,
+        status: isSoft ? "SOFT_404" : res.status,
         time: Date.now() - start,
       };
     } catch (err) {
@@ -133,8 +157,13 @@ export const crawlLinks = async (baseUrl, options = {}) => {
         const res = await fetchWithRetry(resource.url, 3, { userAgent });
 
         let type = "WORKING";
-        if (res.status >= 300 && res.status < 400) type = "REDIRECT";
-        else if (res.status >= 400) type = "BROKEN";
+        if (res.status === "SOFT_404") {
+          type = "BROKEN";
+        } else if (typeof res.status === "number" && res.status >= 300 && res.status < 400) {
+          type = "REDIRECT";
+        } else if (typeof res.status === "number" && res.status >= 400) {
+          type = "BROKEN";
+        }
 
         return {
           url: resource.url,
