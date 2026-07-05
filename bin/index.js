@@ -13,6 +13,8 @@ program
   .option("-c, --concurrency <number>", "Concurrency limit for checking links", (val) => parseInt(val, 10))
   .option("-d, --depth <number>", "Crawl depth (runs recursive multi-page crawl if depth > 0)", (val) => parseInt(val, 10))
   .option("--user-agent <string>", "Custom User-Agent header")
+  .option("--allow-domains <domains>", "Comma-separated list of external domains to allow", (val) => val.split(",").map(d => d.trim()).filter(Boolean))
+  .option("--block-domains <domains>", "Comma-separated list of external domains to block", (val) => val.split(",").map(d => d.trim()).filter(Boolean))
   .option("--internal", "Only internal links")
   .option("--external", "Only external links")
   .parse();
@@ -35,12 +37,16 @@ if (!options.url) {
           onlyExternal: options.external,
           concurrency: options.concurrency,
           userAgent: options.userAgent,
+          allowDomains: options.allowDomains,
+          blockDomains: options.blockDomains,
         })
       : await crawlLinks(options.url, {
           onlyInternal: options.internal,
           onlyExternal: options.external,
           concurrency: options.concurrency,
           userAgent: options.userAgent,
+          allowDomains: options.allowDomains,
+          blockDomains: options.blockDomains,
         });
 
     printResults(data.results);

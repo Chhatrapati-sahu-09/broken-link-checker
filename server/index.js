@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 
 // main API
 app.post("/scan", async (req, res) => {
-  const { url, onlyInternal, onlyExternal, deepScan, depth, concurrency, userAgent } = req.body;
+  const { url, onlyInternal, onlyExternal, deepScan, depth, concurrency, userAgent, allowDomains, blockDomains } = req.body;
 
   if (!url) {
     return res.status(400).json({ error: "URL is required" });
@@ -48,9 +48,18 @@ app.post("/scan", async (req, res) => {
     const parsedConcurrency = concurrency ? parseInt(concurrency, 10) : undefined;
     const parsedDepth = depth !== undefined ? parseInt(depth, 10) : (deepScan ? 2 : undefined);
 
+    const parseDomains = (val) => {
+      if (Array.isArray(val)) return val;
+      if (typeof val === "string") return val.split(",").map(d => d.trim()).filter(Boolean);
+      return undefined;
+    };
+
+    const parsedAllow = parseDomains(allowDomains);
+    const parsedBlock = parseDomains(blockDomains);
+
     const scanResult = parsedDepth && parsedDepth > 0
-      ? await crawlSite(url, parsedDepth, { onlyInternal, onlyExternal, concurrency: parsedConcurrency, userAgent })
-      : await crawlLinks(url, { onlyInternal, onlyExternal, concurrency: parsedConcurrency, userAgent });
+      ? await crawlSite(url, parsedDepth, { onlyInternal, onlyExternal, concurrency: parsedConcurrency, userAgent, allowDomains: parsedAllow, blockDomains: parsedBlock })
+      : await crawlLinks(url, { onlyInternal, onlyExternal, concurrency: parsedConcurrency, userAgent, allowDomains: parsedAllow, blockDomains: parsedBlock });
 
     res.json(scanResult);
   } catch (err) {

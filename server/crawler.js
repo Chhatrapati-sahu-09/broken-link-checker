@@ -2,7 +2,22 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import pLimit from "p-limit";
 import xml2js from "xml2js";
-import { toAbsoluteUrl, isValidHref, isInternalLink } from "./utils.js";
+import { toAbsoluteUrl, isValidHref, isInternalLink, getDomain } from "./utils.js";
+
+const isDomainAllowed = (url, allowDomains, blockDomains) => {
+  const domain = getDomain(url);
+  if (!domain) return false;
+
+  if (allowDomains && allowDomains.length > 0) {
+    if (!allowDomains.includes(domain)) return false;
+  }
+
+  if (blockDomains && blockDomains.length > 0) {
+    if (blockDomains.includes(domain)) return false;
+  }
+
+  return true;
+};
 
 const isSitemapUrl = (url) => {
   try {
@@ -96,7 +111,7 @@ const fetchWithRetry = async (url, retries = 3, options = {}) => {
 };
 
 export const crawlLinks = async (baseUrl, options = {}) => {
-  const { onlyInternal = false, onlyExternal = false, concurrency = 10, userAgent } = options;
+  const { onlyInternal = false, onlyExternal = false, concurrency = 10, userAgent, allowDomains, blockDomains } = options;
 
   if (!baseUrl) {
     throw new Error("URL is required.");
@@ -147,8 +162,12 @@ export const crawlLinks = async (baseUrl, options = {}) => {
   if (isSitemapUrl(baseUrl)) {
     const parsedUrls = await parseSitemap(data);
     for (const loc of parsedUrls) {
-      if (onlyInternal && !isInternalLink(baseUrl, loc)) continue;
-      if (onlyExternal && isInternalLink(baseUrl, loc)) continue;
+      const isInternal = isInternalLink(baseUrl, loc);
+      if (onlyInternal && !isInternal) continue;
+      if (onlyExternal && isInternal) continue;
+
+      if (!isInternal && !isDomainAllowed(loc, allowDomains, blockDomains)) continue;
+
       addResource(loc, "link");
     }
   } else {
@@ -162,8 +181,11 @@ export const crawlLinks = async (baseUrl, options = {}) => {
       const absolute = toAbsoluteUrl(baseUrl, href);
       if (!absolute) return;
 
-      if (onlyInternal && !isInternalLink(baseUrl, absolute)) return;
-      if (onlyExternal && isInternalLink(baseUrl, absolute)) return;
+      const isInternal = isInternalLink(baseUrl, absolute);
+      if (onlyInternal && !isInternal) return;
+      if (onlyExternal && isInternal) return;
+
+      if (!isInternal && !isDomainAllowed(absolute, allowDomains, blockDomains)) return;
 
       addResource(absolute, "link");
     });
@@ -176,14 +198,16 @@ export const crawlLinks = async (baseUrl, options = {}) => {
       const absolute = toAbsoluteUrl(baseUrl, src);
       if (!absolute) return;
 
-      if (onlyInternal && !isInternalLink(baseUrl, absolute)) return;
-      if (onlyExternal && isInternalLink(baseUrl, absolute)) return;
+      const isInternal = isInternalLink(baseUrl, absolute);
+      if (onlyInternal && !isInternal) return;
+      if (onlyExternal && isInternal) return;
+
+      if (!isInternal && !isDomainAllowed(absolute, allowDomains, blockDomains)) return;
 
       addResource(absolute, "image");
     });
   }
 
-  // Cap the number of resources to MAX_LINKS
   // Cap the number of resources to MAX_LINKS
   const resourcesList = Array.from(resources.entries())
     .slice(0, MAX_LINKS)
