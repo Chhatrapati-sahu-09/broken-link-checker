@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
 
 // main API
 app.post("/scan", async (req, res) => {
-  const { url, onlyInternal, onlyExternal, deepScan } = req.body;
+  const { url, onlyInternal, onlyExternal, deepScan, concurrency } = req.body;
 
   if (!url) {
     return res.status(400).json({ error: "URL is required" });
@@ -45,9 +45,10 @@ app.post("/scan", async (req, res) => {
   console.log(`Scanning: ${url}`);
 
   try {
+    const parsedConcurrency = concurrency ? parseInt(concurrency, 10) : undefined;
     const scanResult = deepScan
-      ? await crawlSite(url, 2, { onlyInternal, onlyExternal })
-      : await crawlLinks(url, { onlyInternal, onlyExternal });
+      ? await crawlSite(url, 2, { onlyInternal, onlyExternal, concurrency: parsedConcurrency })
+      : await crawlLinks(url, { onlyInternal, onlyExternal, concurrency: parsedConcurrency });
 
     res.json(scanResult);
   } catch (err) {

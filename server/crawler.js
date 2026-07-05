@@ -1,9 +1,6 @@
-// Cap for maximum number of links to process in a scan
-const MAX_LINKS = 100;
-// crawler.js
-
 import axios from "axios";
 import * as cheerio from "cheerio";
+import pLimit from "p-limit";
 import { toAbsoluteUrl, isValidHref, isInternalLink } from "./utils.js";
 
 // Performance guard: cap number of links processed per scan
@@ -29,22 +26,8 @@ const fetchWithRetry = async (url, retries = 2) => {
   }
 };
 
-const processInBatches = async (links, batchSize = 10, handler) => {
-  const results = [];
-
-  for (let i = 0; i < links.length; i += batchSize) {
-    const batch = links.slice(i, i + batchSize);
-    const batchResults = await Promise.allSettled(
-      batch.map((link) => handler(link)),
-    );
-    results.push(...batchResults);
-  }
-
-  return results;
-};
-
 export const crawlLinks = async (baseUrl, options = {}) => {
-  const { onlyInternal = false, onlyExternal = false } = options;
+  const { onlyInternal = false, onlyExternal = false, concurrency = 10 } = options;
 
   if (!baseUrl) {
     throw new Error("URL is required.");
@@ -125,24 +108,27 @@ export const crawlLinks = async (baseUrl, options = {}) => {
       resourceType,
     }));
 
-  const settledResults = await processInBatches(
-    resourcesList,
-    10,
-    async (resource) => {
-      const res = await fetchWithRetry(resource.url);
+  const limitValue = typeof concurrency === "number" && concurrency > 0 ? concurrency : 10;
+  const limit = pLimit(limitValue);
 
-      let type = "WORKING";
-      if (res.status >= 300 && res.status < 400) type = "REDIRECT";
-      else if (res.status >= 400) type = "BROKEN";
+  const settledResults = await Promise.allSettled(
+    resourcesList.map((resource) =>
+      limit(async () => {
+        const res = await fetchWithRetry(resource.url);
 
-      return {
-        url: resource.url,
-        status: res.status,
-        type,
-        responseTime: `${res.time}ms`,
-        resourceType: resource.resourceType,
-      };
-    },
+        let type = "WORKING";
+        if (res.status >= 300 && res.status < 400) type = "REDIRECT";
+        else if (res.status >= 400) type = "BROKEN";
+
+        return {
+          url: resource.url,
+          status: res.status,
+          type,
+          responseTime: `${res.time}ms`,
+          resourceType: resource.resourceType,
+        };
+      }),
+    ),
   );
 
   const results = settledResults.map((item, index) => {
@@ -163,14 +149,12 @@ export const crawlLinks = async (baseUrl, options = {}) => {
     };
   });
 
-    // Structured response: total, working, broken, redirect, results
-    return {
-      total: results.length,
-      working: results.filter((r) => r.type === "WORKING").length,
-      broken: results.filter((r) => r.type === "BROKEN").length,
-      redirect: results.filter((r) => r.type === "REDIRECT").length,
-      results,
-    };
+  // Structured response: total, working, broken, redirect, results
+  return {
+    total: results.length,
+    working: results.filter((r) => r.type === "WORKING").length,
+    broken: results.filter((r) => r.type === "BROKEN").length,
+    redirect: results.filter((r) => r.type === "REDIRECT").length,
     results,
   };
 };
