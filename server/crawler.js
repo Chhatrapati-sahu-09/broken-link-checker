@@ -148,14 +148,14 @@ export const crawlLinks = async (baseUrl, options = {}) => {
   }
   const resources = new Map();
 
-  const addResource = (url, resourceType) => {
+  const addResource = (url, resourceType, anchorText = "") => {
     if (!resources.has(url)) {
-      resources.set(url, resourceType);
+      resources.set(url, { resourceType, anchorText, sourcePage: baseUrl });
       return;
     }
 
-    if (resources.get(url) === "image" && resourceType === "link") {
-      resources.set(url, resourceType);
+    if (resources.get(url).resourceType === "image" && resourceType === "link") {
+      resources.set(url, { resourceType, anchorText, sourcePage: baseUrl });
     }
   };
 
@@ -168,7 +168,7 @@ export const crawlLinks = async (baseUrl, options = {}) => {
 
       if (!isInternal && !isDomainAllowed(loc, allowDomains, blockDomains)) continue;
 
-      addResource(loc, "link");
+      addResource(loc, "link", "Sitemap URL");
     }
   } else {
     const $ = cheerio.load(data);
@@ -187,7 +187,8 @@ export const crawlLinks = async (baseUrl, options = {}) => {
 
       if (!isInternal && !isDomainAllowed(absolute, allowDomains, blockDomains)) return;
 
-      addResource(absolute, "link");
+      const text = $(el).text().trim() || "";
+      addResource(absolute, "link", text);
     });
 
     $("img").each((i, el) => {
@@ -204,16 +205,19 @@ export const crawlLinks = async (baseUrl, options = {}) => {
 
       if (!isInternal && !isDomainAllowed(absolute, allowDomains, blockDomains)) return;
 
-      addResource(absolute, "image");
+      const alt = $(el).attr("alt") || "";
+      addResource(absolute, "image", alt);
     });
   }
 
   // Cap the number of resources to MAX_LINKS
   const resourcesList = Array.from(resources.entries())
     .slice(0, MAX_LINKS)
-    .map(([url, resourceType]) => ({
+    .map(([url, info]) => ({
       url,
-      resourceType,
+      resourceType: info.resourceType,
+      anchorText: info.anchorText,
+      sourcePage: info.sourcePage,
     }));
 
   const limitValue = typeof concurrency === "number" && concurrency > 0 ? concurrency : 10;
@@ -239,6 +243,8 @@ export const crawlLinks = async (baseUrl, options = {}) => {
           type,
           responseTime: `${res.time}ms`,
           resourceType: resource.resourceType,
+          sourcePage: resource.sourcePage,
+          anchorText: resource.anchorText,
         };
       }),
     ),
@@ -259,6 +265,8 @@ export const crawlLinks = async (baseUrl, options = {}) => {
       type: "BROKEN",
       responseTime: "0ms",
       resourceType: resourcesList[index].resourceType,
+      sourcePage: resourcesList[index].sourcePage,
+      anchorText: resourcesList[index].anchorText,
     };
   });
 

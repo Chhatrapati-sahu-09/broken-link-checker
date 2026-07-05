@@ -28,6 +28,13 @@ export const printResults = (results) => {
       color(result.type).padEnd(10),
       result.responseTime,
     );
+    if (result.anchorText || result.sourcePage) {
+      console.log(
+        chalk.gray(
+          `  ↳ Context: "${result.anchorText || "[No Text]"}" on page ${result.sourcePage || "[Unknown]"}`
+        )
+      );
+    }
   });
 
   console.log("\n📊 Summary:");
