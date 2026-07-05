@@ -6,7 +6,9 @@ import { toAbsoluteUrl, isValidHref, isInternalLink } from "./utils.js";
 // Performance guard: cap number of links processed per scan
 const MAX_LINKS = 100;
 
-const fetchWithRetry = async (url, retries = 2) => {
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const fetchWithRetry = async (url, retries = 3) => {
   for (let i = 0; i <= retries; i++) {
     try {
       const start = Date.now();
@@ -22,6 +24,8 @@ const fetchWithRetry = async (url, retries = 2) => {
       };
     } catch (err) {
       if (i === retries) throw err;
+      const backoffDelay = 1000 * Math.pow(2, i);
+      await delay(backoffDelay);
     }
   }
 };
