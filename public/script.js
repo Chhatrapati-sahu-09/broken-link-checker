@@ -10,6 +10,19 @@ const state = {
 
 const API_URL = "http://localhost:5000/scan";
 
+const socket = io();
+let socketId = null;
+
+socket.on("connect", () => {
+  socketId = socket.id;
+  console.log("Connected to WebSocket, ID:", socketId);
+});
+
+socket.on("progress", (data) => {
+  const pct = data.total ? (data.completed / data.total) * 100 : 0;
+  updateProgress(pct, `Checking (${data.completed}/${data.total}): ${data.url}`);
+});
+
 const $ = (selector) => document.querySelector(selector);
 
 function normalizeUrl(input) {
@@ -48,12 +61,7 @@ function updateProgress(value, label) {
 
 function startProgress() {
   clearInterval(state.progressTimer);
-  updateProgress(8, "Preparing crawl...");
-
-  state.progressTimer = setInterval(() => {
-    const next = Math.min(state.progressValue + 7, 92);
-    updateProgress(next, next < 35 ? "Fetching pages..." : next < 70 ? "Validating resources..." : "Wrapping up...");
-  }, 220);
+  updateProgress(0, "Preparing crawl...");
 }
 
 function stopProgress(finalLabel = "Scan complete") {
@@ -224,7 +232,7 @@ async function scanLinks() {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url: normalizedUrl, deepScan: true }),
+      body: JSON.stringify({ url: normalizedUrl, deepScan: true, socketId }),
     });
 
     if (!response.ok) {
