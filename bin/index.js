@@ -54,6 +54,7 @@ const loadConfig = (configFlag) => {
   return {};
 };
 
+// Load default configurations from .blcrc or blc.config.json if they exist
 const config = loadConfig(options.config);
 
 const getOption = (key, defaultValue) => {
