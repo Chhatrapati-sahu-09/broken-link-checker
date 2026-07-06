@@ -111,7 +111,7 @@ const fetchWithRetry = async (url, retries = 3, options = {}) => {
 };
 
 export const crawlLinks = async (baseUrl, options = {}) => {
-  const { onlyInternal = false, onlyExternal = false, concurrency = 10, userAgent, allowDomains, blockDomains } = options;
+  const { onlyInternal = false, onlyExternal = false, concurrency = 10, userAgent, allowDomains, blockDomains, onProgress } = options;
 
   if (!baseUrl) {
     throw new Error("URL is required.");
@@ -223,6 +223,9 @@ export const crawlLinks = async (baseUrl, options = {}) => {
   const limitValue = typeof concurrency === "number" && concurrency > 0 ? concurrency : 10;
   const limit = pLimit(limitValue);
 
+  let completed = 0;
+  const total = resourcesList.length;
+
   const settledResults = await Promise.allSettled(
     resourcesList.map((resource) =>
       limit(async () => {
@@ -235,6 +238,11 @@ export const crawlLinks = async (baseUrl, options = {}) => {
           type = "REDIRECT";
         } else if (typeof res.status === "number" && res.status >= 400) {
           type = "BROKEN";
+        }
+
+        completed++;
+        if (onProgress) {
+          onProgress({ completed, total, url: resource.url });
         }
 
         return {
