@@ -13,138 +13,38 @@
 </p>
 
 ---
- 
 
 ## Overview
 
-A full-stack tool to scan websites and detect:
-
-- Broken links
-- Redirects
-- Working resources
-
-This helps improve user experience and SEO performance.
+A premium, full-featured link validation and website crawler dashboard built to identify and report broken links, redirects, and resource details. Operates as both an interactive web application with real-time progress updates and a CI-ready Command Line Interface (CLI) utility.
 
 ---
 
-## Features
+## Key Features
 
-- Scan websites for broken links
-- Detect redirects and working links
-- Internal and external link filtering
-- Deep scan (multi-page crawling)
-- CLI and Web interface
-- JSON report output
+- **Concurrency Control**: Restricts check loads using `p-limit` for parallel execution safety.
+- **Exponential Backoff Retries**: Standardized retry scheduling with dynamic delays (`1000 * 2^i`) to mitigate transient failures.
+- **Custom User-Agent Support**: Configurable Request headers via command line arguments and API payloads.
+- **Soft 404 Detection**: Heuristic keyword scans matching text elements on html page bodies.
+- **Sitemap.xml Ingestion**: Seeding and checking links straight from target sitemaps.
+- **Configurable Crawl Depth**: Numeric traversal parameters (`--depth`) for deep crawling.
+- **Domain Allow/Block Lists**: Filtering configurations to permit or bypass scans for specific external domains.
+- **Link Context Reports**: Displays and documents the source pages, anchor text, and image `alt` attributes for checked targets.
+- **HTML Report Export**: Beautiful modern analytical dashboard exports summarizing results.
+- **CSV Format Exports**: Standard spreadsheet compatibility conversions powered by `json2csv`.
+- **CLI Progress Feedback**: Displays real-time scan statistics using `cli-progress`.
+- **CI/CD Integration**: Emits non-zero exit codes when broken links are detected.
+- **WebSocket Live Updates**: Server-to-client notifications leveraging Socket.IO.
+- **Dockerized execution**: Dockerfile and docker-compose configurations for environment consistency.
 
 ---
 
 ## Tech Stack
 
-### Backend
-
-<p>
-  <img src="https://skillicons.dev/icons?i=nodejs,express" />
-</p>
-
-- Node.js
-- Express.js
-- Axios
-- Cheerio
-
----
-
-### Frontend
-
-<p>
-  <img src="https://skillicons.dev/icons?i=html,css,js" />
-</p>
-
-- HTML
-- CSS
-- JavaScript
-
----
-
-### CLI
-
-<p>
-  <img src="https://skillicons.dev/icons?i=nodejs" />
-</p>
-
-- Commander.js
-- Chalk
-
----
-
-## Setup and Usage
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/broken-link-checker.git
-cd broken-link-checker
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Run the application
-
-```bash
-node index.js
-```
-
-### 4. Open in browser
-
-```
-http://localhost:5000
-```
-
----
-
-## API Example
-
-### POST `/scan`
-
-#### Request
-
-```json
-{
-  "url": "https://example.com",
-  "onlyInternal": false,
-  "onlyExternal": false,
-  "deepScan": false
-}
-```
-
-#### Response
-
-```json
-{
-  "total": 10,
-  "working": 7,
-  "broken": 2,
-  "redirect": 1,
-  "results": [
-    {
-      "url": "https://example.com/about",
-      "status": 200,
-      "type": "WORKING"
-    }
-  ]
-}
-```
-
----
-
-## CLI Usage
-
-```bash
-blc --url https://example.com
-```
+- **Backend**: Node.js, Express, Axios, Cheerio, Socket.IO, p-limit, json2csv, xml2js
+- **Frontend**: Responsive modern HTML/CSS/JavaScript interface (WebSocket-enabled)
+- **CLI**: Commander.js, Chalk, cli-progress
+- **Test Suite**: Vitest
 
 ---
 
@@ -153,50 +53,168 @@ blc --url https://example.com
 ```text
 broken-link-checker/
 ├── bin/
-├── src/
+│   └── index.js             # CLI Entry Point
 ├── public/
-├── index.js
+│   ├── index.html           # Web UI Layout
+│   ├── script.js            # Frontend Script
+│   └── styles.css           # Modern Custom Stylesheet
+├── server/
+│   ├── crawler.js           # Crawler core logic & backoff retries
+│   ├── index.js             # API server & WebSocket configurations
+│   └── utils.js             # URL and Domain helpers
+├── src/
+│   ├── csv-generator.js     # CSV report builder
+│   ├── html-generator.js    # HTML dashboard template compiler
+│   └── formatter.js         # Tabular terminal printer
+├── tests/
+│   └── crawler.test.js      # Vitest Suite
+├── Dockerfile
+├── docker-compose.yml
 └── package.json
 ```
 
 ---
 
-## Architecture
+## Installation & Setup
 
-```mermaid
-erDiagram
-    SCAN ||--|{ LINK : contains
-    LINK {
-        string url
-        int status
-        string type
-    }
+### 1. Clone the repository
+```bash
+git clone https://github.com/Chhatrapati-sahu-09/broken-link-checker.git
+cd broken-link-checker
+```
+
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Run the application
+```bash
+npm start
+```
+By default, the server will launch on `http://localhost:5000`.
+
+---
+
+## CLI Usage
+
+Run scans directly from the command line:
+
+```bash
+node bin/index.js --url https://example.com [options]
+```
+
+### Command Options
+
+| Option | Description |
+|---|---|
+| `-u, --url <url>` | The starting URL (can be a webpage or a `sitemap.xml`) |
+| `-c, --concurrency <number>` | Concurrency limit for checking links (default: 10) |
+| `-d, --depth <number>` | Traversal depth for crawling |
+| `--user-agent <string>` | Custom User-Agent header to attach to requests |
+| `--allow-domains <domains>` | Comma-separated list of external domains to allow |
+| `--block-domains <domains>` | Comma-separated list of external domains to block |
+| `--internal` | Check internal links only |
+| `--external` | Check external links only |
+| `--html <path>` | Write results to an interactive HTML report |
+| `--csv <path>` | Write results to a CSV document |
+| `--config <path>` | Path to a custom config file (merges default config) |
+
+### Configuration Files
+
+Create a `.blcrc` or `blc.config.json` in your project's working directory to manage configuration defaults without repeating flags:
+
+```json
+{
+  "concurrency": 5,
+  "userAgent": "MyCustomChecker/1.0",
+  "blockDomains": ["google-analytics.com", "doubleclick.net"]
+}
 ```
 
 ---
 
-## Performance and Safety
+## API Documentation
 
-- Rate limiting
-- Timeout handling
-- Retry mechanism
-- Max link limit
+### POST `/scan`
+
+Crawl and validate links asynchronously.
+
+#### Request body
+```json
+{
+  "url": "https://example.com",
+  "depth": 1,
+  "concurrency": 5,
+  "userAgent": "Crawler-Agent",
+  "allowDomains": ["github.com"],
+  "format": "json",
+  "socketId": "socket_conn_id_here"
+}
+```
+
+#### Response (JSON)
+```json
+{
+  "total": 2,
+  "working": 1,
+  "broken": 1,
+  "redirect": 0,
+  "results": [
+    {
+      "url": "https://example.com/working",
+      "status": 200,
+      "type": "WORKING",
+      "responseTime": "15ms",
+      "resourceType": "link",
+      "sourcePage": "https://example.com",
+      "anchorText": "Our Docs"
+    },
+    {
+      "url": "https://example.com/broken",
+      "status": 404,
+      "type": "BROKEN",
+      "responseTime": "10ms",
+      "resourceType": "link",
+      "sourcePage": "https://example.com",
+      "anchorText": "Dead Link"
+    }
+  ]
+}
+```
+
+*Note: You can request different file exports directly by setting `"format": "csv"` (returns `text/csv`) or `"format": "html"` (returns `text/html`).*
+
+---
+
+## Testing
+
+Run tests with Vitest:
+
+```bash
+npm test
+```
+
+---
+
+## Docker Support
+
+Build and run the full stack container:
+
+```bash
+docker-compose up --build
+```
+Access the application at `http://localhost:5000`.
 
 ---
 
 ## License
 
-MIT
+MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
 ## Author
 
 Chhatrapati Sahu  
-https://github.com/Chhatrapati-sahu-09
-
----
-
-## Support
-
-If you find this project useful, consider starring and sharing it.
+GitHub: [Chhatrapati-sahu-09](https://github.com/Chhatrapati-sahu-09)
