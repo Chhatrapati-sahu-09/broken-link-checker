@@ -25,6 +25,7 @@ program
   .option("--html <path>", "Path to export HTML report")
   .option("--csv <path>", "Path to export CSV report")
   .option("--config <path>", "Path to custom JSON configuration file")
+  .option("--render", "Enable JavaScript rendering with Playwright")
   .parse();
 
 const options = program.opts();
@@ -73,6 +74,7 @@ const internal = getOption("internal");
 const external = getOption("external");
 const htmlPath = getOption("html");
 const csvPath = getOption("csv");
+const render = getOption("render");
 
 if (!url) {
   console.log("❌ Please provide a URL using --url or config file");
@@ -106,6 +108,7 @@ if (!url) {
           allowDomains,
           blockDomains,
           onProgress,
+          render,
         })
       : await crawlLinks(url, {
           onlyInternal: internal,
@@ -115,6 +118,7 @@ if (!url) {
           allowDomains,
           blockDomains,
           onProgress,
+          render,
         });
 
     if (progressBar) {

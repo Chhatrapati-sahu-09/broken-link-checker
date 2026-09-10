@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
 
 // main API
 app.post("/scan", async (req, res) => {
-  const { url, onlyInternal, onlyExternal, deepScan, depth, concurrency, userAgent, allowDomains, blockDomains, socketId, format } = req.body;
+  const { url, onlyInternal, onlyExternal, deepScan, depth, concurrency, userAgent, allowDomains, blockDomains, socketId, format, render } = req.body;
 
   if (!url) {
     return res.status(400).json({ error: "URL is required" });
@@ -79,8 +79,8 @@ app.post("/scan", async (req, res) => {
     };
 
     const scanResult = parsedDepth && parsedDepth > 0
-      ? await crawlSite(url, parsedDepth, { onlyInternal, onlyExternal, concurrency: parsedConcurrency, userAgent, allowDomains: parsedAllow, blockDomains: parsedBlock, onProgress })
-      : await crawlLinks(url, { onlyInternal, onlyExternal, concurrency: parsedConcurrency, userAgent, allowDomains: parsedAllow, blockDomains: parsedBlock, onProgress });
+      ? await crawlSite(url, parsedDepth, { onlyInternal, onlyExternal, concurrency: parsedConcurrency, userAgent, allowDomains: parsedAllow, blockDomains: parsedBlock, onProgress, render })
+      : await crawlLinks(url, { onlyInternal, onlyExternal, concurrency: parsedConcurrency, userAgent, allowDomains: parsedAllow, blockDomains: parsedBlock, onProgress, render });
 
     if (format === "csv") {
       const csv = generateCsvReport(scanResult.results);

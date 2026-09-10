@@ -35,7 +35,6 @@ A premium, full-featured link validation and website crawler dashboard built to 
 - **CLI Progress Feedback**: Displays real-time scan statistics using `cli-progress`.
 - **CI/CD Integration**: Emits non-zero exit codes when broken links are detected.
 - **WebSocket Live Updates**: Server-to-client notifications leveraging Socket.IO.
-- **Dockerized execution**: Dockerfile and docker-compose configurations for environment consistency.
 
 ---
 
@@ -68,8 +67,6 @@ broken-link-checker/
 │   └── formatter.js         # Tabular terminal printer
 ├── tests/
 │   └── crawler.test.js      # Vitest Suite
-├── Dockerfile
-├── docker-compose.yml
 └── package.json
 ```
 
@@ -78,20 +75,24 @@ broken-link-checker/
 ## Installation & Setup
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/Chhatrapati-sahu-09/broken-link-checker.git
 cd broken-link-checker
 ```
 
 ### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Run the application
+
 ```bash
 npm start
 ```
+
 By default, the server will launch on `http://localhost:5000`.
 
 ---
@@ -106,19 +107,19 @@ node bin/index.js --url https://example.com [options]
 
 ### Command Options
 
-| Option | Description |
-|---|---|
-| `-u, --url <url>` | The starting URL (can be a webpage or a `sitemap.xml`) |
-| `-c, --concurrency <number>` | Concurrency limit for checking links (default: 10) |
-| `-d, --depth <number>` | Traversal depth for crawling |
-| `--user-agent <string>` | Custom User-Agent header to attach to requests |
-| `--allow-domains <domains>` | Comma-separated list of external domains to allow |
-| `--block-domains <domains>` | Comma-separated list of external domains to block |
-| `--internal` | Check internal links only |
-| `--external` | Check external links only |
-| `--html <path>` | Write results to an interactive HTML report |
-| `--csv <path>` | Write results to a CSV document |
-| `--config <path>` | Path to a custom config file (merges default config) |
+| Option                       | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| `-u, --url <url>`            | The starting URL (can be a webpage or a `sitemap.xml`) |
+| `-c, --concurrency <number>` | Concurrency limit for checking links (default: 10)     |
+| `-d, --depth <number>`       | Traversal depth for crawling                           |
+| `--user-agent <string>`      | Custom User-Agent header to attach to requests         |
+| `--allow-domains <domains>`  | Comma-separated list of external domains to allow      |
+| `--block-domains <domains>`  | Comma-separated list of external domains to block      |
+| `--internal`                 | Check internal links only                              |
+| `--external`                 | Check external links only                              |
+| `--html <path>`              | Write results to an interactive HTML report            |
+| `--csv <path>`               | Write results to a CSV document                        |
+| `--config <path>`            | Path to a custom config file (merges default config)   |
 
 ### Configuration Files
 
@@ -141,6 +142,7 @@ Create a `.blcrc` or `blc.config.json` in your project's working directory to ma
 Crawl and validate links asynchronously.
 
 #### Request body
+
 ```json
 {
   "url": "https://example.com",
@@ -154,6 +156,7 @@ Crawl and validate links asynchronously.
 ```
 
 #### Response (JSON)
+
 ```json
 {
   "total": 2,
@@ -183,7 +186,7 @@ Crawl and validate links asynchronously.
 }
 ```
 
-*Note: You can request different file exports directly by setting `"format": "csv"` (returns `text/csv`) or `"format": "html"` (returns `text/html`).*
+_Note: You can request different file exports directly by setting `"format": "csv"` (returns `text/csv`) or `"format": "html"` (returns `text/html`)._
 
 ---
 
@@ -196,15 +199,6 @@ npm test
 ```
 
 ---
-
-## Docker Support
-
-Build and run the full stack container:
-
-```bash
-docker-compose up --build
-```
-Access the application at `http://localhost:5000`.
 
 ---
 
